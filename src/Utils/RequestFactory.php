@@ -1,6 +1,6 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Automatically include files of a specified folder.
+ * HTTP Requests factory.
  *
  * @package   backyard-framework
  * @author    Sematico LTD <hello@sematico.com>
