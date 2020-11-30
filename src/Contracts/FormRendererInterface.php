@@ -1,6 +1,6 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Backyard base form class.
+ * Form render interface.
  *
  * @package   backyard-framework
  * @author    Sematico LTD <hello@sematico.com>
@@ -9,10 +9,7 @@
  * @link      https://sematico.com
  */
 
-namespace Backyard\Forms;
+namespace Backyard\Contracts;
 
-use Laminas\Form\Form as LaminasForm;
-
-abstract class Form extends LaminasForm {
-
+interface FormRendererInterface {
 }
