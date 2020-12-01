@@ -22,11 +22,18 @@ use Laminas\Form\ConfigProvider;
 abstract class Form extends LaminasForm {
 
 	/**
-	 * Renderer object.
+	 * Laminas php rendering engine.
 	 *
-	 * @var PhpRenderer|FormRendererInterface|null
+	 * @var PhpRenderer|null
 	 */
 	protected $renderer;
+
+	/**
+	 * Custom Backyard framework form rendering layout.
+	 *
+	 * @var FormRendererInterface|null
+	 */
+	protected $customRenderer;
 
 	/**
 	 * Set a custom form layout renderer.
@@ -34,40 +41,59 @@ abstract class Form extends LaminasForm {
 	 * @param FormRendererInterface $renderer
 	 * @return void
 	 */
-	public function setRenderer( FormRendererInterface $renderer ) {
-		$this->renderer = $renderer;
+	public function setCustomRenderer( FormRendererInterface $renderer ) {
+		$this->customRenderer = $renderer;
 	}
 
 	/**
-	 * Get the rendering handler.
+	 * Get the Laminas php rendering engine.
 	 *
-	 * If no custom layout is set, we use the default php rendering engine.
-	 *
-	 * @return PhpRenderer|FormRendererInterface|null
+	 * @return PhpRenderer|null
 	 */
 	public function getRenderer() {
-
-		if ( $this->renderer instanceof FormRendererInterface ) {
-			return $this->renderer;
-		} else {
-			$this->renderer = $this->getPhpRenderer();
-		}
-
 		return $this->renderer;
 	}
 
 	/**
-	 * Return an instance of the laminas php rendering engine.
+	 * Get the custom rendering object.
 	 *
-	 * @return PhpRenderer
+	 * @return FormRendererInterface|null
 	 */
-	private function getPhpRenderer() {
+	public function getCustomRenderer() {
+		return $this->customRenderer;
+	}
+
+	/**
+	 * Setup the Laminas rendering engine.
+	 *
+	 * @return void
+	 */
+	public function makeRenderer() {
+		/** @var PhpRenderer|Laminas\Form\View\HelperTrait $renderer */
 		$renderer = new PhpRenderer();
 		$renderer->getHelperPluginManager()->configure(
 			( new ConfigProvider() )->getViewHelperConfig()
 		);
+		$this->renderer = $renderer;
+	}
 
-		return $renderer;
+	/**
+	 * Render the form.
+	 *
+	 * @return string
+	 */
+	public function render() {
+
+		$this->makeRenderer();
+
+		$output = false;
+
+		if ( ! $this->customRenderer ) {
+			$output = $this->renderer->form( $this );
+		}
+
+		return $output;
+
 	}
 
 }
