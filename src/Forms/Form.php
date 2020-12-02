@@ -14,6 +14,8 @@ namespace Backyard\Forms;
 use Laminas\Form\Form as LaminasForm;
 use Laminas\View\Renderer\PhpRenderer;
 use Backyard\Contracts\FormRendererInterface;
+use Backyard\Forms\Renderers\BaseFormRenderer;
+use Backyard\Forms\Renderers\CustomFormRenderer;
 use Laminas\Form\ConfigProvider;
 
 /**
@@ -24,7 +26,7 @@ abstract class Form extends LaminasForm {
 	/**
 	 * Laminas php rendering engine.
 	 *
-	 * @var PhpRenderer|null
+	 * @var PhpRenderer|\Laminas\Form\View\HelperTrait|null
 	 */
 	protected $renderer;
 
@@ -38,11 +40,14 @@ abstract class Form extends LaminasForm {
 	/**
 	 * Set a custom form layout renderer.
 	 *
-	 * @param FormRendererInterface $renderer
+	 * @param string $renderer class path to custom render.
 	 * @return void
 	 */
-	public function setCustomRenderer( FormRendererInterface $renderer ) {
-		$this->customRenderer = $renderer;
+	public function setCustomRenderer( string $renderer ) {
+		if ( ! $this->renderer ) {
+			$this->makeRenderer();
+		}
+		$this->customRenderer = new $renderer( $this );
 	}
 
 	/**
@@ -84,12 +89,13 @@ abstract class Form extends LaminasForm {
 	 */
 	public function render() {
 
-		$this->makeRenderer();
-
 		$output = false;
 
 		if ( ! $this->customRenderer ) {
+			$this->makeRenderer();
 			$output = $this->renderer->form( $this );
+		} elseif ( $this->customRenderer instanceof CustomFormRenderer ) {
+			$output = $this->customRenderer->render();
 		}
 
 		return $output;
