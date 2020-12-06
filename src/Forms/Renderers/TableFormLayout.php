@@ -16,11 +16,16 @@ namespace Backyard\Forms\Renderers;
  */
 class TableFormLayout extends CustomFormRenderer {
 
+	/**
+	 * Render a tabled form.
+	 *
+	 * @return string
+	 */
 	public function render() {
 
-		$t = $this->getTemplatesEngine();
+		$templates = $this->getTemplatesEngine();
 
-		return $t->render( 'example' );
+		return $templates->render( 'forms/table-layout' );
 
 	}
 

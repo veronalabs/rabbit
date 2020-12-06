@@ -11,16 +11,13 @@
 
 namespace Backyard\Contracts;
 
-use Laminas\Form\Element;
-
 interface FormRendererInterface {
 
-	public function renderRow( Element $element );
-
-	public function renderLabel( Element $element );
-
-	public function renderInput( Element $element );
-
+	/**
+	 * Render the form through a custom layout.
+	 *
+	 * @return string
+	 */
 	public function render();
 
 }

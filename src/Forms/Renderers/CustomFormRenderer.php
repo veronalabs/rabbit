@@ -21,7 +21,7 @@ use League\Plates\Engine;
 /**
  * Custom form layout rendering base class.
  */
-abstract class CustomFormRenderer {
+abstract class CustomFormRenderer implements FormRendererInterface {
 
 	/**
 	 * Form that will be rendered.
@@ -62,47 +62,6 @@ abstract class CustomFormRenderer {
 	 */
 	public function getTemplatesEngine() {
 		return $this->templatesEngine;
-	}
-
-	/**
-	 * Render field into a row.
-	 *
-	 * @param Element $element
-	 * @return void
-	 */
-	public function renderRow( Element $element ) {
-
-	}
-
-	/**
-	 * Render field label.
-	 *
-	 * @param Element $element
-	 * @return void
-	 */
-	public function renderLabel( Element $element ) {
-
-	}
-
-	/**
-	 * Render field input.
-	 *
-	 * @param Element $element
-	 * @return void
-	 */
-	public function renderInput( Element $element ) {
-
-	}
-
-	/**
-	 * Render the form through a custom layout.
-	 *
-	 * @return string
-	 */
-	public function render() {
-
-		return 'hehehe';
-
 	}
 
 }
