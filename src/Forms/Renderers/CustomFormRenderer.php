@@ -11,10 +11,12 @@
 
 namespace Backyard\Forms\Renderers;
 
+use Backyard\Application;
 use Backyard\Contracts\FormRendererInterface;
 use Backyard\Forms\Form;
 use Laminas\Form\Element;
 use Laminas\View\Renderer\PhpRenderer;
+use League\Plates\Engine;
 
 /**
  * Custom form layout rendering base class.
@@ -36,13 +38,30 @@ abstract class CustomFormRenderer {
 	protected $phpRenderer;
 
 	/**
+	 * Templates engine.
+	 *
+	 * @var Engine
+	 */
+	protected $templatesEngine;
+
+	/**
 	 * Initialize the custom layout properties.
 	 *
 	 * @param Form $form
 	 */
 	public function __construct( Form $form ) {
-		$this->form        = $form;
-		$this->phpRenderer = $this->form->getRenderer();
+		$this->form            = $form;
+		$this->phpRenderer     = $this->form->getRenderer();
+		$this->templatesEngine = Application::get()->plugin->templates();
+	}
+
+	/**
+	 * Get the templates engine.
+	 *
+	 * @return Engine
+	 */
+	public function getTemplatesEngine() {
+		return $this->templatesEngine;
 	}
 
 	/**

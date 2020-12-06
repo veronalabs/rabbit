@@ -11,9 +11,16 @@
 
 namespace Backyard\Forms\Renderers;
 
+/**
+ * Tabled forms layout for admin pages.
+ */
 class TableFormLayout extends CustomFormRenderer {
 
 	public function render() {
+
+		$t = $this->getTemplatesEngine();
+
+		return $t->render( 'example' );
 
 	}
 
