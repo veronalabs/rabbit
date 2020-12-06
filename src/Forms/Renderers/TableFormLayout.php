@@ -25,7 +25,7 @@ class TableFormLayout extends CustomFormRenderer {
 
 		$templates = $this->getTemplatesEngine();
 
-		return $templates->render( 'forms/table-layout' );
+		return $templates->render( 'forms/table-layout', [ 'form' => $this->form ] );
 
 	}
 

@@ -14,7 +14,6 @@ namespace Backyard\Forms\Renderers;
 use Backyard\Application;
 use Backyard\Contracts\FormRendererInterface;
 use Backyard\Forms\Form;
-use Laminas\Form\Element;
 use Laminas\View\Renderer\PhpRenderer;
 use League\Plates\Engine;
 
@@ -28,7 +27,7 @@ abstract class CustomFormRenderer implements FormRendererInterface {
 	 *
 	 * @var Form
 	 */
-	protected $form;
+	public $form;
 
 	/**
 	 * Base rendering engine
