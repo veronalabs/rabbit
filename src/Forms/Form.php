@@ -14,7 +14,6 @@ namespace Backyard\Forms;
 use Laminas\Form\Form as LaminasForm;
 use Laminas\View\Renderer\PhpRenderer;
 use Backyard\Contracts\FormRendererInterface;
-use Backyard\Forms\Renderers\BaseFormRenderer;
 use Backyard\Forms\Renderers\CustomFormRenderer;
 use Laminas\Form\ConfigProvider;
 
@@ -74,7 +73,7 @@ abstract class Form extends LaminasForm {
 	 * @return void
 	 */
 	public function makeRenderer() {
-		/** @var PhpRenderer|Laminas\Form\View\HelperTrait $renderer */
+		/** @var PhpRenderer|\Laminas\Form\View\HelperTrait $renderer */
 		$renderer = new PhpRenderer();
 		$renderer->getHelperPluginManager()->configure(
 			( new ConfigProvider() )->getViewHelperConfig()
