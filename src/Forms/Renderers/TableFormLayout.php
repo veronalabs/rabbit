@@ -11,10 +11,53 @@
 
 namespace Backyard\Forms\Renderers;
 
+use Backyard\Forms\Form;
+use Laminas\Form\Element\Email;
+use Laminas\Form\Element\Submit;
+use Laminas\Form\Element\Text;
+
 /**
  * Tabled forms layout for admin pages.
  */
 class TableFormLayout extends CustomFormRenderer {
+
+	/**
+	 * Setup the form and automatically add classes to form fields.
+	 *
+	 * @param Form $form
+	 */
+	public function __construct( Form $form ) {
+		parent::__construct( $form );
+		$this->setupClasses();
+	}
+
+	/**
+	 * Automatically add classes to some field types.
+	 *
+	 * @return void
+	 */
+	private function setupClasses() {
+
+		foreach ( $this->form as $field ) {
+
+			$classes = $field->getAttribute( 'class' );
+
+			if ( $field instanceof Submit ) {
+				$classes .= ' button button-primary';
+			}
+
+			if (
+				$field instanceof Text ||
+				$field instanceof Email
+			) {
+				$classes .= ' regular-text';
+			}
+
+			$field->setAttribute( 'class', trim( $classes ) );
+
+		}
+
+	}
 
 	/**
 	 * Render a tabled form.
