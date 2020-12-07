@@ -20,18 +20,16 @@ defined( 'ABSPATH' ) || exit;
 	<table class="form-table" role="presentation">
 
 		<?php foreach ( $form as $field ) : ?>
-
 			<tr>
-				<th scope="row">
-
-					<?php $form->getRenderer()->formLabel( $field, $field->label ); ?>
-
-				</th>
-
+				<?php if ( ! empty( $field->getLabel() ) ) : ?>
+					<th scope="row">
+						<?php echo wp_kses_post( $form->getRenderer()->formLabel( $field ) ); ?>
+					</th>
+				<?php endif; ?>
 				<td>
+					<?php echo $form->getRenderer()->formInput( $field ); //phpcs:ignore ?>
 				</td>
 			</tr>
-
 		<?php endforeach; ?>
 
 	</table>
