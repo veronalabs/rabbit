@@ -37,6 +37,24 @@ abstract class Form extends LaminasForm {
 	protected $customRenderer;
 
 	/**
+	 * Setup the form.
+	 *
+	 * @param string $name
+	 * @param array  $options
+	 */
+	public function __construct( $name = null, $options = [] ) {
+		parent::__construct( $name, $options );
+		$this->setupFields();
+	}
+
+	/**
+	 * Register fields within the form
+	 *
+	 * @return void
+	 */
+	abstract public function setupFields();
+
+	/**
 	 * Set a custom form layout renderer.
 	 *
 	 * @param string $renderer class path to custom render.
