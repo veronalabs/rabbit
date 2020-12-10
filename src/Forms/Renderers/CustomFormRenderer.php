@@ -52,6 +52,8 @@ abstract class CustomFormRenderer implements FormRendererInterface {
 		$this->form            = $form;
 		$this->phpRenderer     = $this->form->getRenderer();
 		$this->templatesEngine = Application::get()->plugin->templates();
+
+		$this->setupFieldsAttributes();
 	}
 
 	/**
@@ -61,6 +63,22 @@ abstract class CustomFormRenderer implements FormRendererInterface {
 	 */
 	public function getTemplatesEngine() {
 		return $this->templatesEngine;
+	}
+
+	/**
+	 * Setup attributes for form fields.
+	 *
+	 * @return void
+	 */
+	private function setupFieldsAttributes() {
+
+		foreach ( $this->form as $field ) {
+
+			if ( ! $field->hasAttribute( 'id' ) ) {
+				$field->setAttribute( 'id', esc_attr( sanitize_title( $field->getName() ) ) );
+			}
+		}
+
 	}
 
 }
