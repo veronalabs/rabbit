@@ -23,6 +23,13 @@ use Laminas\Form\ConfigProvider;
 abstract class Form extends LaminasForm {
 
 	/**
+	 * List of tabs defined for the form.
+	 *
+	 * @var array
+	 */
+	protected $tabs = [];
+
+	/**
 	 * Laminas php rendering engine.
 	 *
 	 * @var PhpRenderer|\Laminas\Form\View\HelperTrait|null
@@ -53,6 +60,47 @@ abstract class Form extends LaminasForm {
 	 * @return void
 	 */
 	abstract public function setupFields();
+
+	/**
+	 * Determine if the form has tabs.
+	 *
+	 * @return boolean
+	 */
+	public function hasTabs() {
+		return ! empty( $this->tabs );
+	}
+
+	/**
+	 * Get the list of tabs for the form.
+	 *
+	 * @return array
+	 */
+	public function getTabs() {
+		return $this->tabs;
+	}
+
+	/**
+	 * Add a single tab to the form.
+	 *
+	 * @param string $id
+	 * @param string $label
+	 * @return Form
+	 */
+	public function addTab( string $id, string $label ) {
+		$this->tabs[ $id ] = $label;
+		return $this;
+	}
+
+	/**
+	 * Add tabs to the form.
+	 *
+	 * @param array $tabs
+	 * @return Form
+	 */
+	public function addTabs( array $tabs ) {
+		$this->tabs = $tabs;
+		return $this;
+	}
 
 	/**
 	 * Set a custom form layout renderer.
