@@ -21,6 +21,8 @@ $submitButton = false;
 
 <div class="backyard-form table-layout">
 
+	<?php $this->insert( 'admin-nav-tabs', [ 'form' => $form ] ); ?>
+
 	<?php echo $form->getRenderer()->form()->openTag( $form ); //phpcs:ignore ?>
 
 	<table class="form-table" role="presentation">

@@ -11,8 +11,7 @@
 
 namespace Backyard\Utils;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Request;
+use Laminas\Diactoros\ServerRequestFactory;
 
 /**
  * HTTP Request instance.
@@ -27,20 +26,21 @@ class RequestFactory {
 	 * @return Request HTTP request.
 	 */
 	public static function create() {
-		$get    = stripslashes_deep( $_GET );
-		$post   = stripslashes_deep( $_POST );
+
+		// Not processing anything here.
+		$get    = stripslashes_deep( $_GET ); //phpcs:ignore
+		$post   = stripslashes_deep( $_POST ); //phpcs:ignore
 		$cookie = stripslashes_deep( $_COOKIE );
 		$server = stripslashes_deep( $_SERVER );
+		$files  = stripslashes_deep( $_FILES );
 
-		$request = new Request( $get, $post, array(), $cookie, $_FILES, $server );
-
-		if ( $request->headers->has( 'CONTENT_TYPE' )
-			&& 0 === strpos( $request->headers->get( 'CONTENT_TYPE' ), 'application/x-www-form-urlencoded' )
-			&& in_array( strtoupper( $request->server->get( 'REQUEST_METHOD', 'GET' ) ), array( 'PUT', 'DELETE', 'PATCH' ) )
-		) {
-			parse_str( $request->getContent(), $data );
-			$request->request = new ParameterBag( $data );
-		}
+		$request = ServerRequestFactory::fromGlobals(
+			$server,
+			$get,
+			$post,
+			$cookie,
+			$files
+		);
 
 		return $request;
 	}
