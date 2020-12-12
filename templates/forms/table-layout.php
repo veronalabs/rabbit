@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
 
 $submitButton = false;
 
+$activeTab = $form->getActiveTab();
+
 ?>
 
 <div class="backyard-form table-layout">
@@ -34,6 +36,12 @@ $submitButton = false;
 				$submitButton = $field;
 				continue;
 			}
+
+			// Display only fields that belong to the active tab if the form has tabs.
+			if ( $form->hasTabs() && $field->getOption( 'tab' ) !== $activeTab ) {
+				continue;
+			}
+
 			?>
 
 			<tr>

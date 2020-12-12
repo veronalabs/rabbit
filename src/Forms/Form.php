@@ -84,6 +84,7 @@ abstract class Form extends LaminasForm {
 			$tabFields = $tabConfig['fields'];
 
 			foreach ( $tabFields as $tabField ) {
+				$tabField['options']['tab'] = $key;
 				$this->add( $tabField );
 			}
 		}
