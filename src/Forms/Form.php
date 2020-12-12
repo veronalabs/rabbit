@@ -14,8 +14,10 @@ namespace Backyard\Forms;
 use Laminas\Form\Form as LaminasForm;
 use Laminas\View\Renderer\PhpRenderer;
 use Backyard\Contracts\FormRendererInterface;
+use Backyard\Exceptions\MissingConfigurationException;
 use Backyard\Forms\Renderers\CustomFormRenderer;
 use Laminas\Form\ConfigProvider;
+use Laminas\Form\Element\Submit;
 
 /**
  * Backyard forms builder.
@@ -52,14 +54,52 @@ abstract class Form extends LaminasForm {
 	public function __construct( $name = null, $options = [] ) {
 		parent::__construct( $name, $options );
 		$this->setupFields();
+		$this->registerFields();
 	}
 
 	/**
-	 * Register fields within the form
+	 * Configure fields within the form.
 	 *
 	 * @return void
 	 */
 	abstract public function setupFields();
+
+	/**
+	 * Verify fields have been properly configured.
+	 *
+	 * - When the form has tabs, all fields must have a tab assigned. Except the submit button.
+	 *
+	 * @throws MissingConfigurationException When the form has tabs and some fields have no tab assigned.
+	 * @return void
+	 */
+	protected function registerFields() {
+
+		if ( ! $this->hasTabs() ) {
+			return;
+		}
+
+		foreach ( $this->getTabs() as $key => $tabConfig ) {
+
+			$tabFields = $tabConfig['fields'];
+
+			foreach ( $tabFields as $tabField ) {
+				$this->add( $tabField );
+			}
+		}
+
+		// Determine if there's fields with no tab assigned.
+		/** @var \Laminas\Form\Element $field */
+		foreach ( $this as $field ) {
+
+			if ( $field instanceof Submit ) {
+				continue;
+			}
+
+			if ( ! $field->getOption( 'tab' ) ) {
+				throw new MissingConfigurationException( sprintf( 'Field "%s" requires a tab option.', $field->getName() ) );
+			}
+		}
+	}
 
 	/**
 	 * Determine if the form has tabs.
@@ -84,10 +124,14 @@ abstract class Form extends LaminasForm {
 	 *
 	 * @param string $id
 	 * @param string $label
+	 * @param array  $fields
 	 * @return Form
 	 */
-	public function addTab( string $id, string $label ) {
-		$this->tabs[ $id ] = $label;
+	public function addTab( string $id, string $label, array $fields ) {
+		$this->tabs[ $id ] = [
+			'label'  => $label,
+			'fields' => $fields,
+		];
 		return $this;
 	}
 
