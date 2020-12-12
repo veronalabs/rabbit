@@ -44,4 +44,31 @@ class RequestFactory {
 
 		return $request;
 	}
+
+	/**
+	 * Get $_POST data through a parameters bag.
+	 *
+	 * @return ParameterBag
+	 */
+	public static function getPostedData() {
+
+		$request = self::create();
+
+		return new ParameterBag( $request->getParsedBody() );
+
+	}
+
+	/**
+	 * Get $_GET data through a parameters bag.
+	 *
+	 * @return ParameterBag
+	 */
+	public static function getQueryParams() {
+
+		$request = self::create();
+
+		return new ParameterBag( $request->getQueryParams() );
+
+	}
+
 }
