@@ -11,6 +11,7 @@
 
 namespace Backyard\Utils;
 
+use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ServerRequestFactory;
 
 /**
@@ -48,11 +49,14 @@ class RequestFactory {
 	/**
 	 * Get $_POST data through a parameters bag.
 	 *
+	 * @param boolean|ServerRequest $request
 	 * @return ParameterBag
 	 */
-	public static function getPostedData() {
+	public static function getPostedData( $request = false ) {
 
-		$request = self::create();
+		if ( ! $request instanceof ServerRequest ) {
+			$request = self::create();
+		}
 
 		return new ParameterBag( $request->getParsedBody() );
 
@@ -61,11 +65,14 @@ class RequestFactory {
 	/**
 	 * Get $_GET data through a parameters bag.
 	 *
+	 * @param boolean|ServerRequest $request
 	 * @return ParameterBag
 	 */
-	public static function getQueryParams() {
+	public static function getQueryParams( $request = false ) {
 
-		$request = self::create();
+		if ( ! $request instanceof ServerRequest ) {
+			$request = self::create();
+		}
 
 		return new ParameterBag( $request->getQueryParams() );
 

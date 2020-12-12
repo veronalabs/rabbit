@@ -16,6 +16,7 @@ use Laminas\View\Renderer\PhpRenderer;
 use Backyard\Contracts\FormRendererInterface;
 use Backyard\Exceptions\MissingConfigurationException;
 use Backyard\Forms\Renderers\CustomFormRenderer;
+use Backyard\Utils\RequestFactory;
 use Laminas\Form\ConfigProvider;
 use Laminas\Form\Element\Submit;
 
@@ -144,6 +145,30 @@ abstract class Form extends LaminasForm {
 	public function addTabs( array $tabs ) {
 		$this->tabs = $tabs;
 		return $this;
+	}
+
+	/**
+	 * Return the key of the currently active form tab.
+	 * If the form has tabs, but no tab is detected,
+	 * it'll default back to the 1st tab.
+	 *
+	 * @return bool|string
+	 */
+	public function getActiveTab() {
+
+		if ( ! $this->hasTabs() ) {
+			return;
+		}
+
+		$tabs        = $this->getTabs();
+		$queryParams = RequestFactory::getQueryParams();
+
+		if ( $queryParams->has( 'tab' ) && array_key_exists( $queryParams->get( 'tab' ), $tabs ) ) {
+			return $queryParams->get( 'tab' );
+		} else {
+			return key( $tabs );
+		}
+
 	}
 
 	/**

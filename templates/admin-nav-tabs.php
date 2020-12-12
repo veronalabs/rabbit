@@ -21,21 +21,22 @@ if ( ! $form->hasTabs() ) {
 	return;
 }
 
-$formTabs = $form->getTabs();
-
-$request = RequestFactory::create();
-
-$linkAttributes = ( new DomAttributes() )->add(
-	'admin-form-tab',
-	[
-		'href'  => esc_url( add_query_arg( [ 'tab' => esc_attr( $key ) ], $request->getUri()->__toString() ) ),
-		'class' => 'nav-tab',
-	]
-);
+$formTabs  = $form->getTabs();
+$activeTab = $form->getActiveTab();
+$request   = RequestFactory::create();
 
 ?>
 <nav class="nav-tab-wrapper wp-clearfix">
 	<?php foreach ( $formTabs as $key => $formTab ) : ?>
+		<?php
+			$linkAttributes = ( new DomAttributes() )->add(
+				'admin-form-tab',
+				[
+					'href'  => esc_url( add_query_arg( [ 'tab' => esc_attr( $key ) ], $request->getUri()->__toString() ) ),
+					'class' => $activeTab === $key ? 'nav-tab nav-tab-active' : 'nav-tab',
+				]
+			);
+		?>
 		<a <?php echo $linkAttributes->render( 'admin-form-tab' ); //phpcs:ignore ?>><?php echo esc_html( $formTab['label'] ); ?></a>
 	<?php endforeach; ?>
 </nav>
