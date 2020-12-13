@@ -10,6 +10,7 @@
  * @link      https://sematico.com
  */
 
+use Laminas\Form\Element\Checkbox;
 use Laminas\Form\Element\Submit;
 
 // Exit if accessed directly.
@@ -52,6 +53,18 @@ $activeTab = $form->getActiveTab();
 				<?php endif; ?>
 				<td>
 					<?php echo $form->getRenderer()->formElement( $field ); //phpcs:ignore ?>
+
+					<?php if ( ! empty( $field->getOption( 'hint' ) ) ) : ?>
+						<?php if ( $field instanceof Checkbox ) : ?>
+							<span class="description">
+								<?php echo wp_kses_post( $field->getOption( 'hint' ) ); ?>
+							</span>
+						<?php else : ?>
+							<p class="description">
+								<?php echo wp_kses_post( $field->getOption( 'hint' ) ); ?>
+							</p>
+						<?php endif; ?>
+					<?php endif; ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
