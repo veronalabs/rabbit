@@ -51,7 +51,7 @@ $activeTab = $form->getActiveTab();
 					</th>
 				<?php endif; ?>
 				<td>
-					<?php echo $form->getRenderer()->formInput( $field ); //phpcs:ignore ?>
+					<?php echo $form->getRenderer()->formElement( $field ); //phpcs:ignore ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
