@@ -12,15 +12,15 @@
 namespace Backyard\Utils\Tests;
 
 use Backyard\Utils\RequestFactory;
-use Symfony\Component\HttpFoundation\Request;
+use Laminas\Diactoros\ServerRequest;
 
-class TestTransient extends \WP_UnitTestCase {
+class TestRequestFactory extends \WP_UnitTestCase {
 
 	public function testFactoryCreation() {
 
 		$request = RequestFactory::create();
 
-		$this->assertInstanceOf( Request::class, $request );
+		$this->assertInstanceOf( ServerRequest::class, $request );
 
 	}
 
@@ -29,15 +29,13 @@ class TestTransient extends \WP_UnitTestCase {
 		$_GET['foo1']    = 'bar1';
 		$_POST['foo2']   = 'bar2';
 		$_COOKIE['foo3'] = 'bar3';
-		$_FILES['foo4']  = array( 'bar4' );
 		$_SERVER['foo5'] = 'bar5';
 
 		$request = RequestFactory::create();
-		$this->assertSame( 'bar1', $request->query->get( 'foo1' ) );
-		$this->assertSame( 'bar2', $request->request->get( 'foo2' ) );
-		$this->assertSame( 'bar3', $request->cookies->get( 'foo3' ) );
-		$this->assertSame( array( 'bar4' ), $request->files->get( 'foo4' ) );
-		$this->assertSame( 'bar5', $request->server->get( 'foo5' ) );
+
+		$this->assertSame( 'bar1', $request->getQueryParams()['foo1'] );
+		$this->assertSame( 'bar2', $request->getParsedBody()['foo2'] );
+		$this->assertSame( 'bar3', $request->getCookieParams()['foo3'] );
 
 	}
 
