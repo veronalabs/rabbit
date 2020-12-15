@@ -15,10 +15,13 @@ use Laminas\Form\Form as LaminasForm;
 use Laminas\View\Renderer\PhpRenderer;
 use Backyard\Contracts\FormRendererInterface;
 use Backyard\Exceptions\MissingConfigurationException;
+use Backyard\Forms\Filters\SanitizeTextarea;
+use Backyard\Forms\Filters\SanitizeTextField;
 use Backyard\Forms\Renderers\CustomFormRenderer;
 use Backyard\Utils\RequestFactory;
 use Laminas\Form\ConfigProvider;
 use Laminas\Form\Element\Submit;
+use Laminas\Form\Element\Textarea;
 
 /**
  * Backyard forms builder.
@@ -57,6 +60,7 @@ abstract class Form extends LaminasForm {
 
 		$this->setupFields();
 		$this->registerFields();
+		$this->setupSanitizationFilters();
 	}
 
 	/**
@@ -102,6 +106,41 @@ abstract class Form extends LaminasForm {
 				throw new MissingConfigurationException( sprintf( 'Field "%s" requires a tab option.', $field->getName() ) );
 			}
 		}
+	}
+
+	/**
+	 * Add default sanitization filters to inputs based on their type.
+	 *
+	 * @return void
+	 */
+	private function setupSanitizationFilters() {
+
+		$filters = $this->getInputFilter();
+
+		/** @var \Laminas\Form\Element $field */
+		foreach ( $this as $field ) {
+
+			if ( $field instanceof Textarea ) {
+				$filters->add(
+					[
+						'name'    => $field->getName(),
+						'filters' => [
+							[ 'name' => SanitizeTextarea::class ],
+						],
+					]
+				);
+			} else {
+				$filters->add(
+					[
+						'name'    => $field->getName(),
+						'filters' => [
+							[ 'name' => SanitizeTextField::class ],
+						],
+					]
+				);
+			}
+		}
+
 	}
 
 	/**
