@@ -47,7 +47,7 @@ class NonceFactory {
 	public static function verify( $slug ) {
 		$nonce = self::make( $slug );
 
-		return $nonce->check( ( RequestFactory::create() )->request->get( $nonce->getKey() ) );
+		return $nonce->check( ( RequestFactory::getPostedData() )->get( $nonce->getKey() ) );
 	}
 
 	/**
