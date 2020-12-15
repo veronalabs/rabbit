@@ -19,11 +19,12 @@ use Backyard\Forms\Renderers\CustomFormRenderer;
 use Backyard\Utils\RequestFactory;
 use Laminas\Form\ConfigProvider;
 use Laminas\Form\Element\Submit;
+use Laminas\InputFilter\InputFilterProviderInterface;
 
 /**
  * Backyard forms builder.
  */
-abstract class Form extends LaminasForm {
+abstract class Form extends LaminasForm implements InputFilterProviderInterface {
 
 	/**
 	 * List of tabs defined for the form.
@@ -54,6 +55,7 @@ abstract class Form extends LaminasForm {
 	 */
 	public function __construct( $name = null, $options = [] ) {
 		parent::__construct( $name, $options );
+
 		$this->setupFields();
 		$this->registerFields();
 	}
