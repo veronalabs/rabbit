@@ -65,4 +65,5 @@ class Nonce extends Hidden implements InputProviderInterface {
 			],
 		];
 	}
+
 }

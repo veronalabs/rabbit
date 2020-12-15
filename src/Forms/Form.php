@@ -15,9 +15,12 @@ use Laminas\Form\Form as LaminasForm;
 use Laminas\View\Renderer\PhpRenderer;
 use Backyard\Contracts\FormRendererInterface;
 use Backyard\Exceptions\MissingConfigurationException;
+use Backyard\Forms\Elements\Nonce;
 use Backyard\Forms\Filters\SanitizeTextarea;
 use Backyard\Forms\Filters\SanitizeTextField;
 use Backyard\Forms\Renderers\CustomFormRenderer;
+use Backyard\Forms\Renderers\NonceFieldRenderer;
+use Backyard\Forms\Validators\NonceValidator;
 use Backyard\Utils\RequestFactory;
 use Laminas\Form\ConfigProvider;
 use Laminas\Form\Element\Submit;
@@ -58,9 +61,14 @@ abstract class Form extends LaminasForm {
 	public function __construct( $name = null, $options = [] ) {
 		parent::__construct( $name, $options );
 
+		if ( empty( $this->getOption( 'nonce_name' ) ) ) {
+			$this->setOption( 'nonce_name', "{$name}_nonce" );
+		}
+
 		$this->setupFields();
 		$this->registerFields();
 		$this->setupSanitizationFilters();
+		$this->setupNonceField();
 	}
 
 	/**
@@ -140,6 +148,40 @@ abstract class Form extends LaminasForm {
 				);
 			}
 		}
+
+	}
+
+	/**
+	 * Automatically add a nonce field to the form.
+	 *
+	 * @throws MissingConfigurationException When nonce_name option is missing from the form.
+	 * @return void
+	 */
+	private function setupNonceField() {
+
+		if ( empty( $this->getOption( 'nonce_name' ) ) ) {
+			throw new MissingConfigurationException( 'Every form requires a nonce_name option.' );
+		}
+
+		$nonceInput = new Nonce( $this->getOption( 'nonce_name' ) );
+
+		$this->add( $nonceInput );
+
+		$filters = $this->getInputFilter();
+
+		$filters->add(
+			[
+				'name'       => $this->getOption( 'nonce_name' ),
+				'validators' => [
+					[
+						'name'    => NonceValidator::class,
+						'options' => [
+							'name' => $this->getOption( 'nonce_name' ),
+						],
+					],
+				],
+			]
+		);
 
 	}
 
@@ -249,11 +291,17 @@ abstract class Form extends LaminasForm {
 	 * @return void
 	 */
 	public function makeRenderer() {
+
 		/** @var PhpRenderer|\Laminas\Form\View\HelperTrait $renderer */
 		$renderer = new PhpRenderer();
+
 		$renderer->getHelperPluginManager()->configure(
 			( new ConfigProvider() )->getViewHelperConfig()
 		);
+
+		// Setup rendering of custom elements.
+		$renderer->formElement()->addClass( Nonce::class, NonceFieldRenderer::class );
+
 		$this->renderer = $renderer;
 	}
 

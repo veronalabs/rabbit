@@ -11,6 +11,7 @@
 
 namespace Backyard\Forms\Validators;
 
+use Backyard\Nonces\NonceFactory;
 use Laminas\Validator\AbstractValidator;
 
 class NonceValidator extends AbstractValidator {
@@ -23,6 +24,11 @@ class NonceValidator extends AbstractValidator {
 
 	public function isValid( $value ) {
 		$this->setValue( $value );
+
+		if ( ! NonceFactory::check( $this->getOption( 'name' ), $value ) ) {
+			$this->error( self::NONCE );
+			return false;
+		}
 
 		return true;
 	}
