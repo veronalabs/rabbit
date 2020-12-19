@@ -12,6 +12,7 @@
 namespace Backyard\Tests;
 
 use Backyard\Forms\Elements\Nonce;
+use Backyard\Forms\Filters\SanitizeTextarea;
 use Backyard\Forms\Filters\SanitizeTextField;
 use Backyard\Forms\Form;
 
@@ -54,6 +55,11 @@ class TestForms extends \WP_UnitTestCase {
 		$filtersList  = $exampleField->getFilterChain()->getFilters()->toArray();
 
 		$this->assertInstanceOf( SanitizeTextField::class, $filtersList[0][0] );
+
+		$exampleField2 = $filters->get( 'mytextareafield' );
+		$filtersList   = $exampleField2->getFilterChain()->getFilters()->toArray();
+
+		$this->assertInstanceOf( SanitizeTextarea::class, $filtersList[0][0] );
 
 	}
 
