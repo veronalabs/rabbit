@@ -14,6 +14,9 @@ namespace Backyard\Forms\Validators;
 use Backyard\Nonces\NonceFactory;
 use Laminas\Validator\AbstractValidator;
 
+/**
+ * Verify nonces through forms.
+ */
 class NonceValidator extends AbstractValidator {
 
 	const NONCE = 'nonce';
@@ -22,6 +25,15 @@ class NonceValidator extends AbstractValidator {
 		self::NONCE => 'Nonce validation failed. Please reload the page and try again.',
 	];
 
+	/**
+	 * Determine if the nonce value submitted is valid.
+	 *
+	 * We use the "name" option set to the validator to identify the
+	 * nonce that needs to be verified.
+	 *
+	 * @param string $value
+	 * @return boolean
+	 */
 	public function isValid( $value ) {
 		$this->setValue( $value );
 

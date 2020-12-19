@@ -11,13 +11,14 @@
 
 namespace Backyard\Forms\Elements;
 
+use Backyard\Forms\Validators\NonceValidator;
 use Laminas\Form\Element\Hidden;
 use Laminas\InputFilter\InputProviderInterface;
 use Laminas\Validator\ValidatorInterface;
 use Laminas\Filter\StringTrim;
 
 /**
- * Nonce field.
+ * Nonce element for forms.
  */
 class Nonce extends Hidden implements InputProviderInterface {
 
@@ -32,6 +33,11 @@ class Nonce extends Hidden implements InputProviderInterface {
 	 * @return ValidatorInterface
 	 */
 	public function getValidator() {
+		if ( null === $this->validator ) {
+			$validator       = new NonceValidator( [ 'name' => $this->getName() ] );
+			$this->validator = $validator;
+		}
+
 		return $this->validator;
 	}
 

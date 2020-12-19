@@ -20,8 +20,6 @@ use Backyard\Forms\Filters\SanitizeTextarea;
 use Backyard\Forms\Filters\SanitizeTextField;
 use Backyard\Forms\Renderers\CustomFormRenderer;
 use Backyard\Forms\Renderers\NonceFieldRenderer;
-use Backyard\Forms\Validators\NonceValidator;
-use Backyard\Nonces\Nonce as NoncesNonce;
 use Backyard\Utils\RequestFactory;
 use Laminas\Form\ConfigProvider;
 use Laminas\Form\Element\Submit;
@@ -165,25 +163,8 @@ abstract class Form extends LaminasForm {
 		}
 
 		$nonceInput = new Nonce( $this->getOption( 'nonce_name' ) );
-		$nonce      = new NoncesNonce( $this->getOption( 'nonce_name' ) );
 
 		$this->add( $nonceInput );
-
-		$filters = $this->getInputFilter();
-
-		$filters->add(
-			[
-				'name'       => $nonce->getKey(),
-				'validators' => [
-					[
-						'name'    => NonceValidator::class,
-						'options' => [
-							'name' => $this->getOption( 'nonce_name' ),
-						],
-					],
-				],
-			]
-		);
 
 	}
 
