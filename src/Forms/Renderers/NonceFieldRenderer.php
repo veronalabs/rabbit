@@ -22,8 +22,7 @@ use Laminas\Form\View\Helper\FormHidden;
  */
 class NonceFieldRenderer extends FormHidden {
 
-	public function render(ElementInterface $element)
-	{
+	public function render( ElementInterface $element ) {
 		return NonceFactory::fields( $element->getName() );
 	}
 
