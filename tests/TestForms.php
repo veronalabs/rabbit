@@ -21,6 +21,8 @@ use Backyard\Forms\Renderers\TableFormLayout;
 use Backyard\Utils\Str;
 use Backyard\Plugin;
 use Backyard\Templates\TemplatesServiceProvider;
+use Laminas\InputFilter\Input;
+use Laminas\InputFilter\InputFilter;
 
 class TestForms extends \WP_UnitTestCase {
 
@@ -110,6 +112,25 @@ class TestForms extends \WP_UnitTestCase {
 		$form->setCustomRenderer( TableFormLayout::class );
 
 		$this->assertTrue( Str::contains( $form->render(), '<nav class="nav-tab-wrapper wp-clearfix">' ) );
+
+	}
+
+	public function testInputSanitizers() {
+
+		$text = new Input( 'text' );
+		$text->getFilterChain()->attach( new SanitizeTextField() );
+
+		$textarea = new Input( 'textarea' );
+		$textarea->getFilterChain()->attach( new SanitizeTextarea() );
+
+		$inputFilter = new InputFilter();
+		$inputFilter->add( $text );
+		$inputFilter->add( $textarea );
+
+		$inputFilter->setData( [ 'text' => '<strong>testing</strong>', 'textarea' => '<script>console.log("testing")</script> <div>testing</div> with <strong>bold</strong> text' ] );
+
+		$this->assertEquals( 'testing', $inputFilter->getValue( 'text' ) );
+		$this->assertEquals( 'testing with bold text', $inputFilter->getValue( 'textarea' ) );
 
 	}
 
