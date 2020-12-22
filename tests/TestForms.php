@@ -100,6 +100,19 @@ class TestForms extends \WP_UnitTestCase {
 
 	}
 
+	public function testFormTabsSupport() {
+
+		$form = new ExampleFormWithTabs( 'example_form' );
+
+		$this->assertTrue( $form->hasTabs() );
+		$this->assertTrue( count( $form->getTabs() ) === 1 );
+
+		$form->setCustomRenderer( TableFormLayout::class );
+
+		$this->assertTrue( Str::contains( $form->render(), '<nav class="nav-tab-wrapper wp-clearfix">' ) );
+
+	}
+
 }
 
 class ExampleForm extends Form {
@@ -127,4 +140,24 @@ class ExampleForm extends Form {
 	}
 }
 
+class ExampleFormWithTabs extends Form {
+
+	public function setupFields() {
+		$this->addTab(
+			'test_tab',
+			'tab 1',
+			[
+				[
+					'type'    => 'text',
+					'name'    => 'text',
+					'options' => [
+						'label' => 'Text field',
+						'hint'  => 'Here goes the description',
+					],
+				],
+			]
+		);
+	}
+
+}
 
