@@ -11,10 +11,16 @@
 
 namespace Backyard\Tests;
 
+use Backyard\Application;
 use Backyard\Forms\Elements\Nonce;
 use Backyard\Forms\Filters\SanitizeTextarea;
 use Backyard\Forms\Filters\SanitizeTextField;
 use Backyard\Forms\Form;
+use Backyard\Forms\Renderers\CustomFormRenderer;
+use Backyard\Forms\Renderers\TableFormLayout;
+use Backyard\Utils\Str;
+use Backyard\Plugin;
+use Backyard\Templates\TemplatesServiceProvider;
 
 class TestForms extends \WP_UnitTestCase {
 
@@ -25,8 +31,22 @@ class TestForms extends \WP_UnitTestCase {
 	 */
 	protected $form;
 
+	/**
+	 * Plugin instance
+	 *
+	 * @var Plugin
+	 */
+	protected $plugin;
+
 	public function setUp() {
 		$this->form = new ExampleForm( 'example_form' );
+
+		$path   = realpath( __DIR__ . '/test-plugin', );
+		$plugin = ( Application::get() )->loadPlugin( $path, realpath( __DIR__ . '/test-plugin/test-plugin.php' ), 'config' );
+
+		$plugin->addServiceProvider( TemplatesServiceProvider::class );
+
+		$this->plugin = $plugin;
 	}
 
 	public function testFormSetup() {
@@ -60,6 +80,23 @@ class TestForms extends \WP_UnitTestCase {
 		$filtersList   = $exampleField2->getFilterChain()->getFilters()->toArray();
 
 		$this->assertInstanceOf( SanitizeTextarea::class, $filtersList[0][0] );
+
+	}
+
+	public function testNativeRendering() {
+
+		$this->assertNull( $this->form->getRenderer() );
+		$this->assertTrue( Str::startsWith( $this->form->render(), '<form action="" method="POST"' ) );
+
+	}
+
+	public function testTableLayoutRendering() {
+
+		$form = $this->form;
+		$form->setCustomRenderer( TableFormLayout::class );
+
+		$this->assertInstanceOf( CustomFormRenderer::class, $form->getCustomRenderer() );
+		$this->assertTrue( Str::contains( $form->render(), '<div class="backyard-form table-layout">' ) );
 
 	}
 

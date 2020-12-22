@@ -51,7 +51,7 @@ abstract class CustomFormRenderer implements FormRendererInterface {
 	public function __construct( Form $form ) {
 		$this->form            = $form;
 		$this->phpRenderer     = $this->form->getRenderer();
-		$this->templatesEngine = Application::get()->plugin->templates();
+		$this->templatesEngine = ( Application::get() )->plugin->get( Engine::class );
 
 		$this->setupFieldsAttributes();
 	}
