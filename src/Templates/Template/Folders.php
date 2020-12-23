@@ -30,16 +30,16 @@ class Folders {
 	 *
 	 * @param  string  $name
 	 * @param  string  $path
-	 * @param  boolean $fallback
+	 * @param  boolean $priority
 	 * @throws LogicException When folder already exists.
 	 * @return Folders
 	 */
-	public function add( $name, $path, $fallback = false ) {
+	public function add( $name, $path, $priority ) {
 		if ( $this->exists( $name ) ) {
 			throw new LogicException( 'The template folder "' . $name . '" is already being used.' );
 		}
 
-		$this->folders[ $name ] = new Folder( $name, $path, $fallback );
+		$this->folders[ $name ] = new Folder( $name, $path, $priority );
 
 		return $this;
 	}
