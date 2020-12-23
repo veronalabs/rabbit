@@ -12,6 +12,7 @@
 
 namespace Backyard\Templates;
 
+use Backyard\Application;
 use Backyard\Contracts\TemplatesEngineExtensionInterface;
 use Backyard\Templates\Template\Data;
 use Backyard\Templates\Template\FileExtension;
@@ -33,7 +34,7 @@ class Engine {
 	 *
 	 * @var string
 	 */
-	protected $themeTemplatesDirectory;
+	protected $themeTemplatesDirectory = 'plugin-templates';
 
 	/**
 	 * Directory name where templates are found in this plugin.
@@ -43,6 +44,13 @@ class Engine {
 	 * @var string
 	 */
 	protected $pluginTemplatesDirectory;
+
+	/**
+	 * Path to the plugin templates directory
+	 *
+	 * @var string
+	 */
+	protected $pluginTemplatesPath;
 
 	/**
 	 * Template file extension.
@@ -75,14 +83,43 @@ class Engine {
 	/**
 	 * Get things started.
 	 *
-	 * @param string $basePath
+	 * @param string $pluginTemplatesDirectory
 	 * @param string $fileExtension
 	 */
-	public function __construct( string $basePath, string $fileExtension = '.php' ) {
+	public function __construct( string $pluginTemplatesDirectory, string $fileExtension = '.php' ) {
 		$this->fileExtension = new FileExtension( $fileExtension );
 		$this->folders       = new Folders();
 		$this->functions     = new Functions();
 		$this->data          = new Data();
+
+		$this->setPluginTemplatesPath( 'templates' );
+
+		$this->addFolder( 'base', $this->getPluginTemplatesPath(), 1 );
+
+	}
+
+	/**
+	 * Setup the path to plugin templates directory.
+	 *
+	 * @param string $directoryName name of the folder.
+	 * @return Engine
+	 */
+	public function setPluginTemplatesPath( $directoryName ) {
+
+		$this->pluginTemplatesDirectory = $directoryName;
+		$this->pluginTemplatesPath      = ( Application::get() )->plugin->basePath( $directoryName );
+
+		return $this;
+
+	}
+
+	/**
+	 * Get the path to the plugin templates folder.
+	 *
+	 * @return string
+	 */
+	public function getPluginTemplatesPath() {
+		return $this->pluginTemplatesPath;
 	}
 
 	/**
@@ -138,7 +175,7 @@ class Engine {
 	 * @return Folders
 	 */
 	public function getFolders() {
-		return $this->folders;
+		return $this->folders->getAll();
 	}
 
 	/**

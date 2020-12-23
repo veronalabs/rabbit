@@ -85,4 +85,21 @@ class Folders {
 	public function exists( $name ) {
 		return isset( $this->folders[ $name ] );
 	}
+
+
+	public function getAll() {
+
+		$folders = [];
+
+		/** @var Folder $folder */
+		foreach ( $this->folders as $folderName => $folder ) {
+			$folders[ $folder->getPriority() ] = $folder->getPath();
+		}
+
+		ksort( $folders, SORT_NUMERIC );
+
+		return array_map( 'trailingslashit', $folders );
+
+	}
+
 }
