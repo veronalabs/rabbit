@@ -22,6 +22,12 @@ use Laminas\Form\View\Helper\FormHidden;
  */
 class NonceFieldRenderer extends FormHidden {
 
+	/**
+	 * Render nonce field via wp's internal functions.
+	 *
+	 * @param ElementInterface $element
+	 * @return string
+	 */
 	public function render( ElementInterface $element ) {
 		return NonceFactory::fields( $element->getName() );
 	}
