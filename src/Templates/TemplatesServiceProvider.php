@@ -14,7 +14,6 @@ namespace Backyard\Templates;
 use Backyard\Contracts\BootablePluginProviderInterface;
 use Backyard\Exceptions\MissingConfigurationException;
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use League\Plates\Engine;
 
 /**
  * Registers the templates functionality within the plugin.
