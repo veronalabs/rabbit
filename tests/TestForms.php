@@ -127,7 +127,12 @@ class TestForms extends \WP_UnitTestCase {
 		$inputFilter->add( $text );
 		$inputFilter->add( $textarea );
 
-		$inputFilter->setData( [ 'text' => '<strong>testing</strong>', 'textarea' => '<script>console.log("testing")</script> <div>testing</div> with <strong>bold</strong> text' ] );
+		$inputFilter->setData(
+			[
+				'text'     => '<strong>testing</strong>',
+				'textarea' => '<script>console.log("testing")</script> <div>testing</div> with <strong>bold</strong> text',
+			]
+		);
 
 		$this->assertEquals( 'testing', $inputFilter->getValue( 'text' ) );
 		$this->assertEquals( 'testing with bold text', $inputFilter->getValue( 'textarea' ) );
