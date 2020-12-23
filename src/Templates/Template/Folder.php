@@ -33,23 +33,23 @@ class Folder {
 	protected $path;
 
 	/**
-	 * The folder fallback status.
+	 * The folder priority status.
 	 *
-	 * @var boolean
+	 * @var int
 	 */
-	protected $fallback;
+	protected $priority;
 
 	/**
 	 * Create a new Folder instance.
 	 *
 	 * @param string  $name
 	 * @param string  $path
-	 * @param boolean $fallback
+	 * @param boolean $priority
 	 */
-	public function __construct( $name, $path, $fallback = false ) {
+	public function __construct( $name, $path, $priority ) {
 		$this->setName( $name );
 		$this->setPath( $path );
-		$this->setFallback( $fallback );
+		$this->setPriority( $priority );
 	}
 
 	/**
@@ -77,6 +77,7 @@ class Folder {
 	 * Set the folder path.
 	 *
 	 * @param  string $path
+	 * @throws LogicException When path does not exist.
 	 * @return Folder
 	 */
 	public function setPath( $path ) {
@@ -99,23 +100,23 @@ class Folder {
 	}
 
 	/**
-	 * Set the folder fallback status.
+	 * Set the folder priority status.
 	 *
-	 * @param  boolean $fallback
+	 * @param  boolean $priority
 	 * @return Folder
 	 */
-	public function setFallback( $fallback ) {
-		$this->fallback = $fallback;
+	public function setPriority( $priority ) {
+		$this->priority = $priority;
 
 		return $this;
 	}
 
 	/**
-	 * Get the folder fallback status.
+	 * Get the folder priority status.
 	 *
-	 * @return boolean
+	 * @return int
 	 */
-	public function getFallback() {
-		return $this->fallback;
+	public function getPriority() {
+		return $this->priority;
 	}
 }

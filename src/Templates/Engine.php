@@ -83,9 +83,6 @@ class Engine {
 		$this->folders       = new Folders();
 		$this->functions     = new Functions();
 		$this->data          = new Data();
-
-		$this->pluginTemplatesDirectory = $basePath;
-
 	}
 
 	/**
