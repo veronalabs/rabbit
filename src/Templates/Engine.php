@@ -34,7 +34,7 @@ class Engine {
 	 *
 	 * @var string
 	 */
-	protected $themeTemplatesDirectory = 'plugin-templates';
+	protected $themeTemplatesDirectory;
 
 	/**
 	 * Directory name where templates are found in this plugin.
@@ -84,27 +84,31 @@ class Engine {
 	 * Get things started.
 	 *
 	 * @param string $pluginTemplatesDirectory
+	 * @param string $themeTemplatesDirectory
 	 * @param string $fileExtension
 	 */
-	public function __construct( string $pluginTemplatesDirectory, string $fileExtension = 'php' ) {
+	public function __construct( string $pluginTemplatesDirectory, string $themeTemplatesDirectory = null, string $fileExtension = 'php' ) {
 		$this->fileExtension = new FileExtension( $fileExtension );
 		$this->folders       = new Folders();
 		$this->functions     = new Functions();
 		$this->data          = new Data();
 
-		$this->setPluginTemplatesPath( 'templates' );
+		$this->setPluginTemplatesPath( $pluginTemplatesDirectory );
 
 		$this->addFolder( 'base', $this->getPluginTemplatesPath(), 100 );
 
-		if ( is_dir( trailingslashit( get_template_directory() ) . $this->themeTemplatesDirectory ) ) {
-			$this->addFolder( 'theme', trailingslashit( get_template_directory() ) . $this->themeTemplatesDirectory, 10 );
-		}
+		if ( ! empty( $themeTemplatesDirectory ) ) {
+			$this->themeTemplatesDirectory = $themeTemplatesDirectory;
 
-		// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
-		if ( get_stylesheet_directory() !== get_template_directory() ) {
-			$this->addFolder( 'child-theme', trailingslashit( get_stylesheet_directory() ) . $this->themeTemplatesDirectory, 1 );
-		}
+			if ( is_dir( trailingslashit( get_template_directory() ) . $this->themeTemplatesDirectory ) ) {
+				$this->addFolder( 'theme', trailingslashit( get_template_directory() ) . $this->themeTemplatesDirectory, 10 );
+			}
 
+			// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
+			if ( get_stylesheet_directory() !== get_template_directory() ) {
+				$this->addFolder( 'child-theme', trailingslashit( get_stylesheet_directory() ) . $this->themeTemplatesDirectory, 1 );
+			}
+		}
 	}
 
 	/**

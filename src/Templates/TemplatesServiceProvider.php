@@ -49,7 +49,8 @@ class TemplatesServiceProvider extends AbstractServiceProvider implements Bootab
 
 		$this->getContainer()
 			->add( Engine::class )
-			->addArgument( untrailingslashit( $container->basePath( $container->config( 'base_templates_path' ) ) ) );
+			->addArgument( 'templates' )
+			->addArgument( 'plugin-templates' );
 
 	}
 
