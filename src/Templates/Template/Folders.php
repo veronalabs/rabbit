@@ -86,7 +86,11 @@ class Folders {
 		return isset( $this->folders[ $name ] );
 	}
 
-
+	/**
+	 * Get all registered folders ordered by priority.
+	 *
+	 * @return array
+	 */
 	public function getAll() {
 
 		$folders = [];

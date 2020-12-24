@@ -87,21 +87,9 @@ class Name {
 	 * @return Name
 	 */
 	public function setName( $name ) {
+
 		$this->name = $name;
-
-		$parts = explode( '::', $this->name );
-
-		if ( count( $parts ) === 1 ) {
-			$this->setFile( $parts[0] );
-		} elseif ( count( $parts ) === 2 ) {
-			$this->setFolder( $parts[0] );
-			$this->setFile( $parts[1] );
-		} else {
-			throw new LogicException(
-				'The template name "' . $this->name . '" is not valid. ' .
-				'Do not use the folder namespace separator "::" more than once.'
-			);
-		}
+		$this->setFile( $name );
 
 		return $this;
 	}
@@ -175,17 +163,16 @@ class Name {
 	 * @return string
 	 */
 	public function getPath() {
-		if ( is_null( $this->folder ) ) {
-			return $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
+
+		$folders = $this->engine->getFolders();
+
+		foreach ( $folders as $templatePath ) {
+			if ( file_exists( trailingslashit( $templatePath ) . $this->file ) ) {
+				return trailingslashit( $templatePath ) . $this->file;
+			}
 		}
 
-		$path = $this->folder->getPath() . DIRECTORY_SEPARATOR . $this->file;
-
-		if ( ! is_file( $path ) && $this->folder->getFallback() && is_file( $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file ) ) {
-			$path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
-		}
-
-		return $path;
+		return trailingslashit( $this->getDefaultDirectory() ) . $this->file;
 	}
 
 	/**
@@ -204,7 +191,7 @@ class Name {
 	 * @return string
 	 */
 	protected function getDefaultDirectory() {
-		$directory = $this->engine->getDirectory();
+		$directory = $this->engine->getPluginTemplatesPath();
 
 		if ( is_null( $directory ) ) {
 			throw new LogicException(

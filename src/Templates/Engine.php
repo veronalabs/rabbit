@@ -86,7 +86,7 @@ class Engine {
 	 * @param string $pluginTemplatesDirectory
 	 * @param string $fileExtension
 	 */
-	public function __construct( string $pluginTemplatesDirectory, string $fileExtension = '.php' ) {
+	public function __construct( string $pluginTemplatesDirectory, string $fileExtension = 'php' ) {
 		$this->fileExtension = new FileExtension( $fileExtension );
 		$this->folders       = new Folders();
 		$this->functions     = new Functions();
@@ -94,7 +94,7 @@ class Engine {
 
 		$this->setPluginTemplatesPath( 'templates' );
 
-		$this->addFolder( 'base', $this->getPluginTemplatesPath(), 1 );
+		$this->addFolder( 'base', $this->getPluginTemplatesPath(), 100 );
 
 	}
 
