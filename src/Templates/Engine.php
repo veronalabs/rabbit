@@ -96,6 +96,15 @@ class Engine {
 
 		$this->addFolder( 'base', $this->getPluginTemplatesPath(), 100 );
 
+		if ( is_dir( trailingslashit( get_template_directory() ) . $this->themeTemplatesDirectory ) ) {
+			$this->addFolder( 'theme', trailingslashit( get_template_directory() ) . $this->themeTemplatesDirectory, 10 );
+		}
+
+		// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
+		if ( get_stylesheet_directory() !== get_template_directory() ) {
+			$this->addFolder( 'child-theme', trailingslashit( get_stylesheet_directory() ) . $this->themeTemplatesDirectory, 1 );
+		}
+
 	}
 
 	/**
