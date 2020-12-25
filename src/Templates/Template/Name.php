@@ -165,8 +165,9 @@ class Name {
 	public function getPath() {
 
 		$folders = $this->engine->getFolders();
+		$orederedFolders = $folders->getOrdered();
 
-		foreach ( $folders as $templatePath ) {
+		foreach ( $orederedFolders as $templatePath ) {
 			if ( file_exists( trailingslashit( $templatePath ) . $this->file ) ) {
 				return trailingslashit( $templatePath ) . $this->file;
 			}

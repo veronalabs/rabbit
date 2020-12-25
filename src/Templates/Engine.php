@@ -188,7 +188,7 @@ class Engine {
 	 * @return Folders
 	 */
 	public function getFolders() {
-		return $this->folders->getAll();
+		return $this->folders;
 	}
 
 	/**

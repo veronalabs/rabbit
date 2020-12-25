@@ -91,7 +91,7 @@ class Folders {
 	 *
 	 * @return array
 	 */
-	public function getAll() {
+	public function getOrdered() {
 
 		$folders = [];
 
