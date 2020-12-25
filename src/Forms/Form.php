@@ -297,11 +297,15 @@ abstract class Form extends LaminasForm {
 
 		$output = false;
 
-		if ( ! $this->customRenderer ) {
-			$this->makeRenderer();
-			$output = $this->renderer->form( $this );
-		} elseif ( $this->customRenderer instanceof CustomFormRenderer ) {
-			$output = $this->customRenderer->render();
+		try {
+			if ( ! $this->customRenderer ) {
+				$this->makeRenderer();
+				$output = $this->renderer->form( $this );
+			} elseif ( $this->customRenderer instanceof CustomFormRenderer ) {
+				$output = $this->customRenderer->render();
+			}
+		} catch (\Throwable $th) {
+			wp_die( $th->getMessage() ); //phpcs:ignore
 		}
 
 		return $output;
