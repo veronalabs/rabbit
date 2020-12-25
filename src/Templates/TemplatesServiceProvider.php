@@ -34,7 +34,7 @@ class TemplatesServiceProvider extends AbstractServiceProvider implements Bootab
 	];
 
 	/**
-	 * Register the redirects functionality within the plugin's container.
+	 * Register the templates functionality within the plugin's container.
 	 *
 	 * @return void
 	 * @throws MissingConfigurationException When the require config is missing.
