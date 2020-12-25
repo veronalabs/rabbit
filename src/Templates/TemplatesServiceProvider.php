@@ -41,16 +41,25 @@ class TemplatesServiceProvider extends AbstractServiceProvider implements Bootab
 	 */
 	public function register() {
 
+		/** @var \Backyard\Plugin $container */
 		$container = $this->getContainer();
 
 		if ( ! $container->config( 'base_templates_path' ) ) {
 			throw new MissingConfigurationException( 'Templates service provider requires "base_templates_path" to be configured.' );
 		}
 
-		$this->getContainer()
+		$container
 			->add( Engine::class )
 			->addArgument( 'templates' )
-			->addArgument( 'plugin-templates' );
+			->addArgument( 'plugin-templates' )
+			->addMethodCall(
+				'addFolder',
+				[
+					'vendor',
+					$container->basePath( $container->config( 'base_templates_path' ) ),
+					5,
+				]
+			);
 
 	}
 

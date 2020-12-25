@@ -304,7 +304,7 @@ abstract class Form extends LaminasForm {
 			} elseif ( $this->customRenderer instanceof CustomFormRenderer ) {
 				$output = $this->customRenderer->render();
 			}
-		} catch (\Throwable $th) {
+		} catch ( \Throwable $th ) {
 			wp_die( $th->getMessage() ); //phpcs:ignore
 		}
 
