@@ -89,7 +89,20 @@ class Name {
 	public function setName( $name ) {
 
 		$this->name = $name;
-		$this->setFile( $name );
+
+		$parts = explode( '::', $this->name );
+
+		if ( count( $parts ) === 1 ) {
+			$this->setFile( $parts[0] );
+		} elseif ( count( $parts ) === 2 ) {
+			$this->setFolder( $parts[0] );
+			$this->setFile( $parts[1] );
+		} else {
+			throw new LogicException(
+				'The template name "' . $this->name . '" is not valid. ' .
+				'Do not use the folder namespace separator "::" more than once.'
+			);
+		}
 
 		return $this;
 	}
@@ -118,7 +131,7 @@ class Name {
 	/**
 	 * Get the parsed template folder.
 	 *
-	 * @return string
+	 * @return Folder
 	 */
 	public function getFolder() {
 		return $this->folder;
@@ -160,11 +173,17 @@ class Name {
 	/**
 	 * Resolve template path.
 	 *
+	 * When a specific folder is set, templates overrides from themes is disabled.
+	 *
 	 * @return string
 	 */
 	public function getPath() {
 
-		$folders = $this->engine->getFolders();
+		if ( $this->getFolder() instanceof Folder ) {
+			return trailingslashit( $this->getFolder()->getPath() ) . $this->file;
+		}
+
+		$folders         = $this->engine->getFolders();
 		$orederedFolders = $folders->getOrdered();
 
 		foreach ( $orederedFolders as $templatePath ) {
