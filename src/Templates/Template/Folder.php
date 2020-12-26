@@ -46,7 +46,7 @@ class Folder {
 	 * @param string  $path
 	 * @param boolean $priority
 	 */
-	public function __construct( $name, $path, $priority ) {
+	public function __construct( $name, $path, $priority = 20 ) {
 		$this->setName( $name );
 		$this->setPath( $path );
 		$this->setPriority( $priority );

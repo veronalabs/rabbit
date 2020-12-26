@@ -34,7 +34,7 @@ class Folders {
 	 * @throws LogicException When folder already exists.
 	 * @return Folders
 	 */
-	public function add( $name, $path, $priority ) {
+	public function add( $name, $path, $priority = 20 ) {
 		if ( $this->exists( $name ) ) {
 			throw new LogicException( 'The template folder "' . $name . '" is already being used.' );
 		}

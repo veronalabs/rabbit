@@ -164,7 +164,7 @@ class Engine {
 	 * @param string|int $priority decide with which priority the folder should be set to.
 	 * @return Engine
 	 */
-	public function addFolder( string $name, string $directory, $priority ) {
+	public function addFolder( string $name, string $directory, $priority = 20 ) {
 		$this->folders->add( $name, $directory, $priority );
 
 		return $this;
