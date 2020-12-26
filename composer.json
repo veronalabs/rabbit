@@ -47,6 +47,7 @@
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "mikey179/vfsstream": "^1.6",
         "phpunit/phpunit": "^7.0",
         "symfony/var-dumper": "^5.1",
         "wp-coding-standards/wpcs": "dev-master"

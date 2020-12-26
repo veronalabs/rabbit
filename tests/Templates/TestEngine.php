@@ -9,21 +9,22 @@
  * @link      https://sematico.com
  */
 
- /*
-namespace Backyard\Tests;
+namespace Backyard\Tests\Templates;
 
+use Backyard\Application;
 use Backyard\Plugin;
+use Backyard\Templates\Engine;
 use Backyard\Templates\TemplatesServiceProvider;
-use Backyard\Utils\Str;
-use League\Plates\Engine;
+use org\bovigo\vfs\vfsStream;
 
-class TestTemplates extends \WP_UnitTestCase {
+class TestEngine extends \WP_UnitTestCase {
 
 	protected $plugin;
 
 	public function setUp() {
-		$path   = realpath( __DIR__ . '/test-plugin' );
-		$plugin = new Plugin( $path, realpath( __DIR__ . '/test-plugin/test-plugin.php' ), 'config' );
+
+		$path   = realpath( BACKYARD_TESTS_PATH . '/test-plugin' );
+		$plugin = ( Application::get() )->loadPlugin( $path, realpath( BACKYARD_TESTS_PATH . '/test-plugin/test-plugin.php' ), 'config' );
 
 		$plugin->addServiceProvider( TemplatesServiceProvider::class );
 		$plugin->bootPluginProviders();
@@ -39,10 +40,4 @@ class TestTemplates extends \WP_UnitTestCase {
 		$this->assertInstanceOf( Engine::class, $this->plugin->templates() );
 	}
 
-	public function testCanRender() {
-		$this->assertTrue( Str::contains( $this->plugin->templates()->render( 'test' ), 'testing' ) );
-		$this->assertTrue( Str::contains( $this->plugin->templates()->render( 'test-vars', [ 'name' => 'John' ] ), 'John' ) );
-	}
-
 }
-*/

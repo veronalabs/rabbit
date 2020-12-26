@@ -16,6 +16,8 @@ if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
 	exit( 1 );
 }
 
+define( 'BACKYARD_TESTS_PATH', realpath( __DIR__ ) );
+
 // Give access to tests_add_filter() function.
 require_once $_tests_dir . '/includes/functions.php';
 
