@@ -34,6 +34,7 @@
     "require": {
         "php": ">=7.2",
         "caseyamcl/configula": "^3.1",
+        "illuminate/database": "^8.61",
         "illuminate/macroable": "^8.7",
         "laminas/laminas-diactoros": "^2.5",
         "laminas/laminas-escaper": "^2.7",
