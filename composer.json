@@ -58,7 +58,8 @@
         "sort-packages": true,
         "preferred-install": {
             "*": "dist"
-        }
+        },
+        "platform-check": false
     },
     "scripts": {
         "test": "bin/phpunit"
