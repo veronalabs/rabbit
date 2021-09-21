@@ -39,12 +39,12 @@ class DataBaseServiceProvider extends AbstractServiceProvider implements Bootabl
 		$container
 			->share('DataBase' , Capsule::class )
 			->addMethodCall('addConnection' , [
-				'driver'    => 'mysql',
+				['driver'    => 'mysql',
 				'host'      => DB_HOST,
 				'database'  => DB_NAME,
 				'username'  => DB_USER,
 				'password'  => DB_PASSWORD,
-				'charset'   => DB_CHARSET,
+				'charset'   => DB_CHARSET]
 			])
 			->addMethodCall('setAsGlobal')
 			->addMethodCall('bootEloquent');
