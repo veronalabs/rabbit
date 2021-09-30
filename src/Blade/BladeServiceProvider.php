@@ -47,15 +47,10 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 	];
 
 	/**
-	 * Add the file system loader into the plugin.
-	 *
-	 * The createTwigCacheFolder() method creates a subfolder within the wp-uploads folder
-	 * where cache files generated for twig templates are stored.
-	 *
-	 * The deleteTwigCacheFolder() method deletes the folder previously created.
+	 * Boot Blade ServiceProvider
 	 *
 	 * @return void
-	 * @throws MissingConfigurationException When the plugin configuration is missing the views_path specification.
+	 * @throws MissingConfigurationException When the plugin configuration is missing the views_path or the views_cache_path specifications.
 	 */
 	public function boot() {
 
@@ -65,61 +60,67 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 			throw new MissingConfigurationException( 'Blade service provider requires "views_path" to be configured.' );
 		}
 
-	}
-
-	/**
-	 * Register the twig functionality within the plugin.
-	 *
-	 * @return void
-	 */
-	public function register() {
+		if ( ! $container->config( 'views_cache_path' ) ) {
+			throw new MissingConfigurationException( 'Blade service provider requires "views_cache_path" to be configured.' );
+		}
 
 		$container = $this->getContainer();
 
-		$views_dir = $container->basePath( $container->config( 'views_path' ) );
+		$views_dir      = $container->basePath( $container->config( 'views_path' ) );
+		$view_cache_dir = $container->basePath( $container->config( 'views_cache_path'));
 
 		$container->share( 'views_path' , $views_dir );
 		
 
 		$container
-			->add( 'BladeEngine', CompilerEngine::class )
+			->share( 'BladeEngine', CompilerEngine::class )
 			->addArgument( 'Compiler' );
 
 		$container
-			->add( 'Compiler', BladeCompiler::class )
+			->share( 'Compiler', BladeCompiler::class )
 			->addArgument( 'FileSystem')
-			->addArgument( $views_dir );
+			->addArgument( $view_cache_dir );
 
 		$container
 			->share( 'FileSystem' , Filesystem::class );
 
 		$container
-			->add( 'Factory' , Factory::class )
+			->share( 'Factory' , Factory::class )
 			->addArgument( 'EngineResolver')
 			->addArgument('FileViewFinder')
 			->addArgument('Dispatcher');
 		
 		$container
-			->add( 'EngineResolver' , EngineResolver::class);
+			->share( 'EngineResolver' , EngineResolver::class);
 
 		$container
-			->add( 'Dispatcher' , Dispatcher::class )
+			->share( 'Dispatcher' , Dispatcher::class )
 			->addArgument( 'Container' );
 
 		$container
-			->add( 'Container' , Container::class );
+			->share( 'Container' , Container::class );
 
 		$container
-			->add( 'FileViewFinder' , FileViewFinder::class )
+			->share( 'FileViewFinder' , FileViewFinder::class )
 			->addArgument( 'FileSystem')
 			->addArgument( [$views_dir] );
 
 	}
 
 	/**
+	 * Register the blade functionality within the plugin.
+	 *
+	 * @return void
+	 */
+	public function register() {
+
+
+	}
+
+	/**
 	 * When the plugin is booted, register a new macro.
 	 *
-	 * Adds the `twig()` method that returns an instance of the Twig\Environment class.
+	 * Adds the `blade()` method that returns an instance of the Illuminate\view class.
 	 *
 	 * @return void
 	 */
@@ -133,19 +134,21 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 
 				$container = $instance->getContainer();
 
-				$factory     = $container->get('Factory');
-				$BladeEngine = $container->get('BladeEngine');
-				$views_path   = $container->get('views_path');
+				$factory           = $container->get('Factory');
+				$BladeEngine       = $container->get('BladeEngine');
+				$file_view_finder  = $container->get('FileViewFinder');
+				$view_file_path    = $file_view_finder->find($view);
+
 
 				$view_obj = new View(
 					$factory,
 					$BladeEngine,
 					$view,
-					$views_path.'/test.blade.php',
+					$view_file_path,
 					$data
 				);
 
-				return $view_obj;
+				return $view_obj->render();
 			}
 		);
 
