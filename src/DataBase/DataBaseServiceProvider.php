@@ -72,7 +72,7 @@ class DataBaseServiceProvider extends AbstractServiceProvider implements Bootabl
 		$instance = $this;
 
 		$this->getContainer()::macro(
-			'Database',
+			'database',
 			function() use ( $instance ) {
 				return $instance->getContainer()->get( 'database' );
 			}
