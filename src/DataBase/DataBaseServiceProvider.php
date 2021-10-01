@@ -9,7 +9,7 @@ use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
- * Registers the illuminate\
+ * Registers the illuminate\Database into the plugin
  */
 class DataBaseServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface, BootablePluginProviderInterface {
 
@@ -23,11 +23,11 @@ class DataBaseServiceProvider extends AbstractServiceProvider implements Bootabl
 	 * @var array
 	 */
 	protected $provides = [
-		'DataBase'
+		'database'
 	];
 
 	/**
-	 * Add the Capsule\Manager to the contianer(plugin).
+	 * Add the Capsule\Manager into the plugin.
 	 *
 	 * @return void
 	 * 
@@ -37,7 +37,7 @@ class DataBaseServiceProvider extends AbstractServiceProvider implements Bootabl
 		$container = $this->getContainer();
 
 		$container
-			->share('DataBase' , Capsule::class )
+			->share('database' , Capsule::class )
 			->addMethodCall('addConnection' , [
 				['driver'    => 'mysql',
 				'host'      => DB_HOST,
@@ -63,7 +63,7 @@ class DataBaseServiceProvider extends AbstractServiceProvider implements Bootabl
 	/**
 	 * When the plugin is booted, register a new macro.
 	 *
-	 * Adds the `database()` method that returns shard instance of the Illuminate\Database\Capsuel\Manager class.
+	 * Adds the `Database()` method that returns shard instance of the Illuminate\Database\Capsuel\Manager class.
 	 *
 	 * @return void
 	 */
@@ -72,9 +72,9 @@ class DataBaseServiceProvider extends AbstractServiceProvider implements Bootabl
 		$instance = $this;
 
 		$this->getContainer()::macro(
-			'DataBase',
+			'Database',
 			function() use ( $instance ) {
-				return $instance->getContainer()->get( 'DataBase' );
+				return $instance->getContainer()->get( 'database' );
 			}
 		);
 
