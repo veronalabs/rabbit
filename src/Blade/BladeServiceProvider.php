@@ -34,16 +34,14 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 	 * @var array
 	 */
 	protected $provides = [
-		'Blade',
-		'BladeEngine',
-		'Compiler',
-		'Factory',
-		'EngineResolver',
-		'FileViewFinder',
-		'FileSystem',
-		'Dispatcher',
-		'Container',
-		'views_path'
+		'blade.engine',
+		'compiler',
+		'factory',
+		'engine.resolver',
+		'file.view.finder',
+		'file.system',
+		'dispatcher',
+		'container',
 	];
 
 	/**
@@ -69,40 +67,38 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 		$views_dir      = $container->basePath( $container->config( 'views_path' ) );
 		$view_cache_dir = $container->basePath( $container->config( 'views_cache_path'));
 
-		$container->share( 'views_path' , $views_dir );
-		
 
 		$container
-			->share( 'BladeEngine', CompilerEngine::class )
-			->addArgument( 'Compiler' );
+			->share( 'blade.engine', CompilerEngine::class )
+			->addArgument( 'compiler' );
 
 		$container
-			->share( 'Compiler', BladeCompiler::class )
-			->addArgument( 'FileSystem')
+			->share( 'compiler', BladeCompiler::class )
+			->addArgument( 'file.system')
 			->addArgument( $view_cache_dir );
 
 		$container
-			->share( 'FileSystem' , Filesystem::class );
+			->share( 'file.system' , Filesystem::class );
 
 		$container
-			->share( 'Factory' , Factory::class )
-			->addArgument( 'EngineResolver')
-			->addArgument('FileViewFinder')
-			->addArgument('Dispatcher');
+			->share( 'factory' , Factory::class )
+			->addArgument( 'engine.resolver')
+			->addArgument('file.view.finder')
+			->addArgument('dispatcher');
 		
 		$container
-			->share( 'EngineResolver' , EngineResolver::class);
+			->share( 'engine.resolver' , EngineResolver::class);
 
 		$container
-			->share( 'Dispatcher' , Dispatcher::class )
-			->addArgument( 'Container' );
+			->share( 'dispatcher' , Dispatcher::class )
+			->addArgument( 'container' );
 
 		$container
-			->share( 'Container' , Container::class );
+			->share( 'container' , Container::class );
 
 		$container
-			->share( 'FileViewFinder' , FileViewFinder::class )
-			->addArgument( 'FileSystem')
+			->share( 'file.view.finder' , FileViewFinder::class )
+			->addArgument( 'file.system')
 			->addArgument( [$views_dir] );
 
 	}
@@ -129,22 +125,22 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 		$instance = $this;
 
 		$this->getContainer()::macro(
-			'Blade',
+			'blade',
 			function( String $view , Array $data) use ( $instance ) {
 
 				$container = $instance->getContainer();
 
-				$factory           = $container->get('Factory');
-				$BladeEngine       = $container->get('BladeEngine');
-				$file_view_finder  = $container->get('FileViewFinder');
-				$view_file_path    = $file_view_finder->find($view);
+				$factory           = $container->get('factory');
+				$bladeEngine       = $container->get('blade.engine');
+				$fileViewFinder    = $container->get('file.view.finder');
+				$viewFilePath      = $fileViewFinder->find($view);
 
 
 				$view_obj = new View(
 					$factory,
-					$BladeEngine,
+					$bladeEngine,
 					$view,
-					$view_file_path,
+					$viewFilePath,
 					$data
 				);
 
