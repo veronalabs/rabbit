@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "972a7f3bcb724b2fc5de5c9607707419",
+    "content-hash": "f247b7e153164b1702cd1faf27c6d18c",
     "packages": [
         {
             "name": "caseyamcl/configula",
@@ -5349,7 +5349,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {
         "wp-coding-standards/wpcs": 20
     },
