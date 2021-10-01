@@ -65,6 +65,5 @@
     "scripts": {
         "test": "bin/phpunit"
     },
-    "minimum-stability": "dev",
     "prefer-stable": true
 }
