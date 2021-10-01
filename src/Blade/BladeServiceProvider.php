@@ -125,7 +125,7 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 		$instance = $this;
 
 		$this->getContainer()::macro(
-			'Blade',
+			'blade',
 			function( String $view , Array $data) use ( $instance ) {
 
 				$container = $instance->getContainer();
