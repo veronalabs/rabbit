@@ -34,7 +34,9 @@
     "require": {
         "php": ">=7.2",
         "caseyamcl/configula": "^3.1",
+        "illuminate/database": "^8.61",
         "illuminate/macroable": "^8.7",
+        "illuminate/view": "^8.61",
         "laminas/laminas-diactoros": "^2.5",
         "laminas/laminas-escaper": "^2.7",
         "laminas/laminas-form": "^2.15",
@@ -57,7 +59,8 @@
         "sort-packages": true,
         "preferred-install": {
             "*": "dist"
-        }
+        },
+        "platform-check": false
     },
     "scripts": {
         "test": "bin/phpunit"
