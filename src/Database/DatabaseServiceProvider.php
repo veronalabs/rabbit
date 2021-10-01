@@ -1,6 +1,6 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
-namespace Backyard\DataBase;
+namespace Backyard\Database;
 
 use Backyard\Contracts\BootablePluginProviderInterface;
 use Backyard\Exceptions\MissingConfigurationException;
@@ -11,7 +11,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 /**
  * Registers the illuminate\Database into the plugin
  */
-class DataBaseServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface, BootablePluginProviderInterface {
+class DatabaseServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface, BootablePluginProviderInterface {
 
 	/**
 	 * The provided array is a way to let the container
@@ -30,7 +30,7 @@ class DataBaseServiceProvider extends AbstractServiceProvider implements Bootabl
 	 * Add the Capsule\Manager into the plugin.
 	 *
 	 * @return void
-	 * 
+	 *
 	 */
 	public function boot() {
 
