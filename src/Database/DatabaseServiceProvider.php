@@ -3,15 +3,15 @@
 namespace Backyard\Database;
 
 use Backyard\Contracts\BootablePluginProviderInterface;
-use Backyard\Exceptions\MissingConfigurationException;
+use Illuminate\Database\Capsule\Manager as Capsule;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Registers the illuminate\Database into the plugin
  */
-class DatabaseServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface, BootablePluginProviderInterface {
+class DatabaseServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface, BootablePluginProviderInterface
+{
 
 	/**
 	 * The provided array is a way to let the container
@@ -32,26 +32,27 @@ class DatabaseServiceProvider extends AbstractServiceProvider implements Bootabl
 	 * @return void
 	 *
 	 */
-	public function boot() {
+	public function boot()
+	{
 
 		$container = $this->getContainer();
 
 		$container
-            ->share('database', Capsule::class)
-            ->addMethodCall('addConnection', [
-                'config' => [
-                    'driver'   => 'mysql',
-                    'host'     => DB_HOST,
-                    'database' => DB_NAME,
-                    'username' => DB_USER,
-                    'password' => DB_PASSWORD,
-                    'charset'  => DB_CHARSET
-                ]
-            ])
-            ->addMethodCall('setAsGlobal');
+			->share('database', Capsule::class)
+			->addMethodCall('addConnection', [
+				'config' => [
+					'driver'   => 'mysql',
+					'host'     => DB_HOST,
+					'database' => DB_NAME,
+					'username' => DB_USER,
+					'password' => DB_PASSWORD,
+					'charset'  => DB_CHARSET
+				]
+			])
+			->addMethodCall('setAsGlobal');
 
-			// Boot eloquent should be when capsule is initialized.
-            $container->get('database')->bootEloquent();
+		// Boot eloquent should be when capsule is initialized.
+		$container->get('database')->bootEloquent();
 
 
 	}
@@ -59,7 +60,8 @@ class DatabaseServiceProvider extends AbstractServiceProvider implements Bootabl
 	/**
 	 * @return void
 	 */
-	public function register() {
+	public function register()
+	{
 
 
 	}
@@ -69,17 +71,18 @@ class DatabaseServiceProvider extends AbstractServiceProvider implements Bootabl
 	 *
 	 * Adds the `database()` method that returns shard instance of the Illuminate\Database\Capsule\Manager class.
 	 *
-     * @example Model::where('wp_users', 1)->get();
 	 * @return void
+	 * @example Model::where('wp_users', 1)->get();
 	 */
-	public function bootPlugin() {
+	public function bootPlugin()
+	{
 
 		$instance = $this;
 
 		$this->getContainer()::macro(
 			'database',
-			function() use ( $instance ) {
-				return $instance->getContainer()->get( 'database' );
+			function () use ($instance) {
+				return $instance->getContainer()->get('database');
 			}
 		);
 

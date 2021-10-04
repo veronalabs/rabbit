@@ -4,25 +4,24 @@ namespace Backyard\Blade;
 
 use Backyard\Contracts\BootablePluginProviderInterface;
 use Backyard\Exceptions\MissingConfigurationException;
-
-use League\Container\ServiceProvider\AbstractServiceProvider;
-use League\Container\ServiceProvider\BootableServiceProviderInterface;
-use League\Container\Argument\Literal;
-
-use Illuminate\View\FileViewFinder;
+use Illuminate\Container\Container as Container;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem as Filesystem;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Engines\CompilerEngine;
-use Illuminate\Events\Dispatcher;
-use Illuminate\Container\Container as Container;
-use Illuminate\View\Factory;
 use Illuminate\View\Engines\EngineResolver;
+use Illuminate\View\Factory;
+use Illuminate\View\FileViewFinder;
 use Illuminate\View\View as View;
+use League\Container\Argument\Literal;
+use League\Container\ServiceProvider\AbstractServiceProvider;
+use League\Container\ServiceProvider\BootableServiceProviderInterface;
 
 /**
  * Registers the Blade templating engine functionality into the plugin.
  */
-class BladeServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface, BootablePluginProviderInterface {
+class BladeServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface, BootablePluginProviderInterface
+{
 
 	/**
 	 * The provided array is a way to let the container
@@ -50,56 +49,57 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 	 * @return void
 	 * @throws MissingConfigurationException When the plugin configuration is missing the views_path or the views_cache_path specifications.
 	 */
-	public function boot() {
+	public function boot()
+	{
 
 		$container = $this->getContainer();
 
-		if ( ! $container->config( 'views_path' ) ) {
-			throw new MissingConfigurationException( 'Blade service provider requires "views_path" to be configured.' );
+		if (!$container->config('views_path')) {
+			throw new MissingConfigurationException('Blade service provider requires "views_path" to be configured.');
 		}
 
-		if ( ! $container->config( 'views_cache_path' ) ) {
-			throw new MissingConfigurationException( 'Blade service provider requires "views_cache_path" to be configured.' );
+		if (!$container->config('views_cache_path')) {
+			throw new MissingConfigurationException('Blade service provider requires "views_cache_path" to be configured.');
 		}
 
 		$container = $this->getContainer();
 
-		$views_dir      = $container->basePath( $container->config( 'views_path' ) );
-		$view_cache_dir = $container->basePath( $container->config( 'views_cache_path'));
+		$views_dir      = $container->basePath($container->config('views_path'));
+		$view_cache_dir = $container->basePath($container->config('views_cache_path'));
 
 
 		$container
-			->share( 'blade.engine', CompilerEngine::class )
-			->addArgument( 'compiler' );
+			->share('blade.engine', CompilerEngine::class)
+			->addArgument('compiler');
 
 		$container
-			->share( 'compiler', BladeCompiler::class )
-			->addArgument( 'file.system')
-			->addArgument( $view_cache_dir );
+			->share('compiler', BladeCompiler::class)
+			->addArgument('file.system')
+			->addArgument($view_cache_dir);
 
 		$container
-			->share( 'file.system' , Filesystem::class );
+			->share('file.system', Filesystem::class);
 
 		$container
-			->share( 'factory' , Factory::class )
-			->addArgument( 'engine.resolver')
+			->share('factory', Factory::class)
+			->addArgument('engine.resolver')
 			->addArgument('file.view.finder')
 			->addArgument('dispatcher');
-		
-		$container
-			->share( 'engine.resolver' , EngineResolver::class);
 
 		$container
-			->share( 'dispatcher' , Dispatcher::class )
-			->addArgument( 'container' );
+			->share('engine.resolver', EngineResolver::class);
 
 		$container
-			->share( 'container' , Container::class );
+			->share('dispatcher', Dispatcher::class)
+			->addArgument('container');
 
 		$container
-			->share( 'file.view.finder' , FileViewFinder::class )
-			->addArgument( 'file.system')
-			->addArgument( [$views_dir] );
+			->share('container', Container::class);
+
+		$container
+			->share('file.view.finder', FileViewFinder::class)
+			->addArgument('file.system')
+			->addArgument([$views_dir]);
 
 	}
 
@@ -108,7 +108,8 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 	 *
 	 * @return void
 	 */
-	public function register() {
+	public function register()
+	{
 
 
 	}
@@ -120,20 +121,21 @@ class BladeServiceProvider extends AbstractServiceProvider implements BootableSe
 	 *
 	 * @return void
 	 */
-	public function bootPlugin() {
+	public function bootPlugin()
+	{
 
 		$instance = $this;
 
 		$this->getContainer()::macro(
 			'blade',
-			function( String $view , Array $data) use ( $instance ) {
+			function (string $view, array $data) use ($instance) {
 
 				$container = $instance->getContainer();
 
-				$factory           = $container->get('factory');
-				$bladeEngine       = $container->get('blade.engine');
-				$fileViewFinder    = $container->get('file.view.finder');
-				$viewFilePath      = $fileViewFinder->find($view);
+				$factory        = $container->get('factory');
+				$bladeEngine    = $container->get('blade.engine');
+				$fileViewFinder = $container->get('file.view.finder');
+				$viewFilePath   = $fileViewFinder->find($view);
 
 
 				$view_obj = new View(
