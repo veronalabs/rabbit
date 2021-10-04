@@ -46,8 +46,10 @@ class DatabaseServiceProvider extends AbstractServiceProvider implements Bootabl
 				'password'  => DB_PASSWORD,
 				'charset'   => DB_CHARSET]
 			])
-			->addMethodCall('setAsGlobal')
-			->addMethodCall('bootEloquent');
+			->addMethodCall('setAsGlobal');
+
+			// Boot eloquent should be when capsule is initialized.
+            $container->get('database')->bootEloquent();
 
 
 	}
@@ -63,8 +65,9 @@ class DatabaseServiceProvider extends AbstractServiceProvider implements Bootabl
 	/**
 	 * When the plugin is booted, register a new macro.
 	 *
-	 * Adds the `Database()` method that returns shard instance of the Illuminate\Database\Capsuel\Manager class.
+	 * Adds the `database()` method that returns shard instance of the Illuminate\Database\Capsule\Manager class.
 	 *
+     * @example Model::where('wp_users', 1)->get();
 	 * @return void
 	 */
 	public function bootPlugin() {
