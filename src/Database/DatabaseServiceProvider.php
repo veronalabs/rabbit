@@ -34,7 +34,7 @@ class DatabaseServiceProvider extends AbstractServiceProvider implements Bootabl
 	 */
 	public function boot()
 	{
-
+		global $wpdb;
 		$container = $this->getContainer();
 
 		$container
@@ -46,7 +46,8 @@ class DatabaseServiceProvider extends AbstractServiceProvider implements Bootabl
 					'database' => DB_NAME,
 					'username' => DB_USER,
 					'password' => DB_PASSWORD,
-					'charset'  => DB_CHARSET
+					'charset'  => DB_CHARSET,
+					'prefix'   => $wpdb->prefix,
 				]
 			])
 			->addMethodCall('setAsGlobal');
