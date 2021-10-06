@@ -66,7 +66,7 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
                 break;
 
             case 'production':
-                $rotating_handler = new RotatingFileHandler($container->basePath($logs_path).'/debug.log', (int)$logs_days, Logger::ERROR);
+                $rotating_handler = new RotatingFileHandler($container->basePath($logs_path).'/production.log', (int)$logs_days, Logger::ERROR);
                 $container
                     ->share('logger', Logger::class)
                     ->addArgument('production_channel')
