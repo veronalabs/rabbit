@@ -57,7 +57,7 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
 
         switch ($env) {
 
-            case 'developement':
+            case 'development':
                 $stream_handler = new StreamHandler($container->basePath($logs_path).'debug.log', Logger::DEBUG);
                 $container
                     ->share('logger', Logger::class)
@@ -74,8 +74,6 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
     }
 
     /**
-     * Register the twig functionality within the plugin.
-     *
      * @return void
      */
     public function register()
@@ -85,7 +83,7 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
     /**
      * When the plugin is booted, register a new macro.
      *
-     * Adds the `twig()` method that returns an instance of the Twig\Environment class.
+     * Adds the `logger()` method that returns an instance of the Monolog\Logger class.
      *
      * @return void
      */
