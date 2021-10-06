@@ -1,0 +1,106 @@
+<?php // phpcs:ignore WordPress.Files.FileName
+
+namespace Backyard\Twig;
+
+use Backyard\Contracts\BootablePluginProviderInterface;
+use Backyard\Exceptions\MissingConfigurationException;
+use League\Container\ServiceProvider\AbstractServiceProvider;
+use League\Container\ServiceProvider\BootableServiceProviderInterface;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\RotatingFileHandler;
+
+/**
+ * Registers the loging functionality into the plugin.
+ */
+class LoggerServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface, BootablePluginProviderInterface {
+
+	/**
+	 * The provided array is a way to let the container
+	 * know that a service is provided by this service
+	 * provider. Every service that is registered via
+	 * this service provider must have an alias added
+	 * to this array or it will be ignored.
+	 *
+	 * @var array
+	 */
+	protected $provides = [
+		'logger',
+	];
+
+	/**
+	 * Add the logger instance into the plugin.
+	 *
+	 * @return void
+	 * @throws MissingConfigurationException When the plugin configuration is missing the env, logs_path and logs_days specification.
+	 */
+	public function boot() {
+
+		$container = $this->getContainer();
+
+		$env       = $container->config( 'env' );
+		$logs_path = $container->config( 'logs_path' );
+		$logs_days = $container->config( 'logs_days' );
+
+		if ( ! $env ) {
+			throw new MissingConfigurationException( 'Logger service provider requires "env" to be configured.' );
+		}
+		
+		if ( ! $logs_path ) {
+			throw new MissingConfigurationException( 'Logger service provider requires "logs_path" to be configured.' );
+		}
+		
+		if ( ! $logs_days ) {
+			throw new MissingConfigurationException( 'Logger service provider requires "logs_days" to be configured.' );
+		}
+
+		switch($env){
+
+			case 'developement':
+				$stream_handler = new StreamHandler( $container->basePath($logs_path).'debug.log' , Logger::DEBUG );
+				$container
+					->share( 'logger' , Logger::class )
+					->addMethodCall( 'pushHandler' , [ $stream_handler ] );
+				break;
+
+			case 'production':
+				$rotating_handler = new RotatingFileHandler( $container->basePath($logs_path).'debug.log' , (int)$logs_days , Logger::Error );
+				$container
+					->share( 'logger' , Logger::class )
+					->addMethodCall( 'pushHandler' , [ $rotating_handler ] );
+				break;
+		}
+
+
+	}
+
+	/**
+	 * Register the twig functionality within the plugin.
+	 *
+	 * @return void
+	 */
+	public function register() {
+
+	}
+
+	/**
+	 * When the plugin is booted, register a new macro.
+	 *
+	 * Adds the `twig()` method that returns an instance of the Twig\Environment class.
+	 *
+	 * @return void
+	 */
+	public function bootPlugin() {
+
+		$instance = $this;
+
+		$this->getContainer()::macro(
+			'logger',
+			function() use ( $instance ) {
+				return $instance->getContainer()->get( 'logger' );
+			}
+		);
+
+	}
+
+}
