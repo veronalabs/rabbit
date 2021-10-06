@@ -1,6 +1,6 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
-namespace Backyard\Twig;
+namespace Backyard\Logger;
 
 use Backyard\Contracts\BootablePluginProviderInterface;
 use Backyard\Exceptions\MissingConfigurationException;
