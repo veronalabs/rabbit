@@ -63,7 +63,7 @@ class DataBaseServiceProvider extends AbstractServiceProvider implements Bootabl
 	/**
 	 * When the plugin is booted, register a new macro.
 	 *
-	 * Adds the `Database()` method that returns shard instance of the Illuminate\Database\Capsuel\Manager class.
+	 * Adds the `database()` method that returns shard instance of the Illuminate\Database\Capsuel\Manager class.
 	 *
 	 * @return void
 	 */
