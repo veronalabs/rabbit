@@ -58,16 +58,18 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
         switch ($env) {
 
             case 'development':
-                $stream_handler = new StreamHandler($container->basePath($logs_path).'debug.log', Logger::DEBUG);
+                $stream_handler = new StreamHandler($container->basePath($logs_path).'/debug.log', Logger::DEBUG);
                 $container
                     ->share('logger', Logger::class)
+                    ->addArgument('development_channel')
                     ->addMethodCall('pushHandler', [ $stream_handler ]);
                 break;
 
             case 'production':
-                $rotating_handler = new RotatingFileHandler($container->basePath($logs_path).'debug.log', (int)$logs_days, Logger::Error);
+                $rotating_handler = new RotatingFileHandler($container->basePath($logs_path).'/debug.log', (int)$logs_days, Logger::ERROR);
                 $container
                     ->share('logger', Logger::class)
+                    ->addArgument('production_channel')
                     ->addMethodCall('pushHandler', [ $rotating_handler ]);
                 break;
         }
