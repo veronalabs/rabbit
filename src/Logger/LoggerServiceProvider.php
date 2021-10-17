@@ -38,14 +38,14 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
     public function boot()
     {
         $container = $this->getContainer();
-        $logs_path = $container->config('logs_path');
-        $logs_days = $container->config('logs_days');
+        $logsPath  = $container->config('logs_path');
+        $logsDays  = $container->config('logs_days');
 
-        if (! $logs_path) {
+        if (! $logsPath) {
             throw new MissingConfigurationException('Logger service provider requires "logs_path" to be configured.');
         }
         
-        if (! $logs_days) {
+        if (! $logsDays) {
             throw new MissingConfigurationException('Logger service provider requires "logs_days" to be configured.');
         }
 
@@ -53,20 +53,20 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
 
             case 'local':
             case 'development':
-                $stream_handler = new StreamHandler($container->basePath($logs_path).'/debug.log', Logger::DEBUG);
+                $streamHandler = new StreamHandler($container->basePath($logsPath).'/debug.log', Logger::DEBUG);
                 $container
                     ->share('logger', Logger::class)
                     ->addArgument('development_channel')
-                    ->addMethodCall('pushHandler', [ $stream_handler ]);
+                    ->addMethodCall('pushHandler', [ $streamHandler ]);
                 break;
 
             case 'staging':
             case 'production':
-                $rotating_handler = new RotatingFileHandler($container->basePath($logs_path).'/production.log', (int)$logs_days, Logger::ERROR);
+                $rotatingHandler = new RotatingFileHandler($container->basePath($logsPath).'/production.log', (int)$logsDays, Logger::ERROR);
                 $container
                     ->share('logger', Logger::class)
                     ->addArgument('production_channel')
-                    ->addMethodCall('pushHandler', [ $rotating_handler ]);
+                    ->addMethodCall('pushHandler', [ $rotatingHandler ]);
                 break;
 
         }
