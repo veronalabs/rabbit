@@ -3,7 +3,6 @@
 namespace Backyard\RestApi;
 
 use Backyard\Exceptions\MissingConfigurationException;
-use Backyard\Application;
 
 class Route
 {
@@ -60,20 +59,8 @@ class Route
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(string $restNameSpace, string $nonceFieldName)
     {
-        $plugin = Application::get()->plugin;
-
-        $restNameSpace  = $plugin->config('rest_namespace');
-        $nonceFieldName = $plugin->config('rest_nonce_field_name');
-
-        if (! $restNameSpace) {
-            throw new MissingConfigurationException('Rest api service requires "rest_namespace" to be configured.');
-        }
-        if (! $nonceFieldName) {
-            throw new MissingConfigurationException('Rest api service requires "rest_nonce_field_name" to be configured.');
-        }
-
         $this->restNameSpace  = $restNameSpace;
         $this->nonceFieldName = $nonceFieldName;
     }
@@ -87,17 +74,15 @@ class Route
      * @param string|null $nonceHandle
      * @return void
      */
-    public static function get(string $route, callable $endpoint, string $permission = null, string $nonceHandle = null)
+    public function get(string $route, callable $endpoint, string $permission = null, string $nonceHandle = null)
     {
-        $instance = new self;
-        
-        $instance->method      = 'GET';
-        $instance->route       = $route;
-        $instance->endpoint    = $endpoint;
-        $instance->permission  = $permission;
-        $instance->nonceHandle = $nonceHandle;
+        $this->method      = 'GET';
+        $this->route       = $route;
+        $this->endpoint    = $endpoint;
+        $this->permission  = $permission;
+        $this->nonceHandle = $nonceHandle;
 
-        $instance->register();
+        $this->register();
     }
 
     /**
@@ -109,17 +94,15 @@ class Route
      * @param string|null $nonceHandle
      * @return void
      */
-    public static function post(string $route, callable $endpoint, string $permission = null, string $nonceHandle = null)
+    public function post(string $route, callable $endpoint, string $permission = null, string $nonceHandle = null)
     {
-        $instance = new self;
-        
-        $instance->method      = 'POST';
-        $instance->route       = $route;
-        $instance->endpoint    = $endpoint;
-        $instance->permission  = $permission;
-        $instance->nonceHandle = $nonceHandle;
+        $this->method      = 'POST';
+        $this->route       = $route;
+        $this->endpoint    = $endpoint;
+        $this->permission  = $permission;
+        $this->nonceHandle = $nonceHandle;
 
-        $instance->register();
+        $this->register();
     }
     /**
      * Register the obj
