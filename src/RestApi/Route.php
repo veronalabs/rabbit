@@ -83,6 +83,8 @@ class Route
         $this->nonceHandle = $nonceHandle;
 
         $this->register();
+
+        return $this;
     }
 
     /**
@@ -103,7 +105,19 @@ class Route
         $this->nonceHandle = $nonceHandle;
 
         $this->register();
+
+        return $this;
     }
+
+    public function getUrl(string $route = null)
+    {
+        $route = $route ?? $this->route;
+        $route = trailingslashit($route).$this->restNameSpace;
+
+        return get_rest_url(null, $route, 'rest');
+    }
+
+
     /**
      * Register the obj
      *
