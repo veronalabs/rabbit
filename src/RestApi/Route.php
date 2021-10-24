@@ -108,11 +108,17 @@ class Route
 
         return $this;
     }
-
+    
+    /**
+     * Get route's url
+     *
+     * @param string|null $route
+     * @return string
+     */
     public function getUrl(string $route = null)
     {
         $route = $route ?? $this->route;
-        $route = trailingslashit($route).$this->restNameSpace;
+        $route = trailingslashit($this->restNameSpace).$route;
 
         return get_rest_url(null, $route, 'rest');
     }
@@ -126,7 +132,6 @@ class Route
     protected function register()
     {
         $instance = $this;
-
         add_action(
             'rest_api_init',
             function () use ($instance) {
