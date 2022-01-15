@@ -1,6 +1,7 @@
 {
     "name": "veronalabs/framework",
     "description": "",
+    "type": "library",
     "keywords": [
         "wordpress",
         "pressmodo",
@@ -58,10 +59,10 @@
     "config": {
         "bin-dir": "bin",
         "sort-packages": true,
-        "preferred-install": {
-            "*": "dist"
-        },
-        "platform-check": false
+        "platform-check": false,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false
+        }
     },
     "scripts": {
         "test": "bin/phpunit"
