@@ -45,8 +45,7 @@
         "league/container": "^3.3",
         "monolog/monolog": "^2.3",
         "symfony/finder": "^5.1",
-        "symfony/http-foundation": "^5.1",
-        "twig/twig": "^3.0"
+        "symfony/http-foundation": "^5.1"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
@@ -61,7 +60,10 @@
         "preferred-install": {
             "*": "dist"
         },
-        "platform-check": false
+        "platform-check": false,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "scripts": {
         "test": "bin/phpunit"
