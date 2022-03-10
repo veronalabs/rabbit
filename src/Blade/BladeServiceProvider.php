@@ -23,133 +23,125 @@ use League\Container\ServiceProvider\BootableServiceProviderInterface;
 class BladeServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface, BootablePluginProviderInterface
 {
 
-	/**
-	 * The provided array is a way to let the container
-	 * know that a service is provided by this service
-	 * provider. Every service that is registered via
-	 * this service provider must have an alias added
-	 * to this array or it will be ignored.
-	 *
-	 * @var array
-	 */
-	protected $provides = [
-		'blade.engine',
-		'compiler',
-		'factory',
-		'engine.resolver',
-		'file.view.finder',
-		'file.system',
-		'dispatcher',
-		'container',
-	];
+    /**
+     * The provided array is a way to let the container
+     * know that a service is provided by this service
+     * provider. Every service that is registered via
+     * this service provider must have an alias added
+     * to this array or it will be ignored.
+     *
+     * @var array
+     */
+    protected $provides = [
+        CompilerEngine::class,
+        BladeCompiler::class,
+        Factory::class,
+        EngineResolver::class,
+        FileViewFinder::class,
+        Filesystem::class,
+        Dispatcher::class,
+        Container::class,
+    ];
 
-	/**
-	 * Boot Blade ServiceProvider
-	 *
-	 * @return void
-	 * @throws MissingConfigurationException When the plugin configuration is missing the views_path or the views_cache_path specifications.
-	 */
-	public function boot()
-	{
+    /**
+     * Boot Blade ServiceProvider
+     *
+     * @return void
+     * @throws MissingConfigurationException When the plugin configuration is missing the views_path or the views_cache_path specifications.
+     */
+    public function boot()
+    {
+        $container = $this->getContainer();
 
-		$container = $this->getContainer();
+        if (!$container->config('views_path')) {
+            throw new MissingConfigurationException('Blade service provider requires "views_path" to be configured.');
+        }
 
-		if (!$container->config('views_path')) {
-			throw new MissingConfigurationException('Blade service provider requires "views_path" to be configured.');
-		}
+        if (!$container->config('views_cache_path')) {
+            throw new MissingConfigurationException('Blade service provider requires "views_cache_path" to be configured.');
+        }
 
-		if (!$container->config('views_cache_path')) {
-			throw new MissingConfigurationException('Blade service provider requires "views_cache_path" to be configured.');
-		}
+        $container = $this->getContainer();
 
-		$container = $this->getContainer();
-
-		$views_dir      = $container->basePath($container->config('views_path'));
-		$view_cache_dir = $container->basePath($container->config('views_cache_path'));
-
-
-		$container
-			->share('blade.engine', CompilerEngine::class)
-			->addArgument('compiler');
-
-		$container
-			->share('compiler', BladeCompiler::class)
-			->addArgument('file.system')
-			->addArgument($view_cache_dir);
-
-		$container
-			->share('file.system', Filesystem::class);
-
-		$container
-			->share('factory', Factory::class)
-			->addArgument('engine.resolver')
-			->addArgument('file.view.finder')
-			->addArgument('dispatcher');
-
-		$container
-			->share('engine.resolver', EngineResolver::class);
-
-		$container
-			->share('dispatcher', Dispatcher::class)
-			->addArgument('container');
-
-		$container
-			->share('container', Container::class);
-
-		$container
-			->share('file.view.finder', FileViewFinder::class)
-			->addArgument('file.system')
-			->addArgument([$views_dir]);
-
-	}
-
-	/**
-	 * Register the blade functionality within the plugin.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
+        $viewsDir      = $container->basePath($container->config('views_path'));
+        $ViewsCacheDir = $container->basePath($container->config('views_cache_path'));
 
 
-	}
+        $container
+            ->share(CompilerEngine::class)
+            ->addArgument(BladeCompiler::class);
 
-	/**
-	 * When the plugin is booted, register a new macro.
-	 *
-	 * Adds the `blade()` method that returns an instance of the Illuminate\view class.
-	 *
-	 * @return void
-	 */
-	public function bootPlugin()
-	{
+        $container
+            ->share(BladeCompiler::class)
+            ->addArgument(Filesystem::class)
+            ->addArgument($ViewsCacheDir);
 
-		$instance = $this;
+        $container
+            ->share(Filesystem::class);
 
-		$this->getContainer()::macro(
-			'blade',
-			function (string $view, array $data) use ($instance) {
+        $container
+            ->share(Factory::class)
+            ->addArgument(EngineResolver::class)
+            ->addArgument(FileViewFinder::class)
+            ->addArgument(Dispatcher::class);
 
-				$container = $instance->getContainer();
+        $container
+            ->share(EngineResolver::class);
 
-				$factory        = $container->get('factory');
-				$bladeEngine    = $container->get('blade.engine');
-				$fileViewFinder = $container->get('file.view.finder');
-				$viewFilePath   = $fileViewFinder->find($view);
+        $container
+            ->share(Dispatcher::class)
+            ->addArgument(Container::class);
+
+        $container
+            ->share(Container::class);
+
+        $container
+            ->share(FileViewFinder::class)
+            ->addArgument(Filesystem::class)
+            ->addArgument([$viewsDir]);
+    }
+
+    /**
+     * Register the blade functionality within the plugin.
+     *
+     * @return void
+     */
+    public function register()
+    {
+    }
+
+    /**
+     * When the plugin is booted, register a new macro.
+     *
+     * Adds the `blade()` method that returns an instance of the Illuminate\view class.
+     *
+     * @return void
+     */
+    public function bootPlugin()
+    {
+        $instance = $this;
+
+        $this->getContainer()::macro(
+            'blade',
+            function (string $view, array $data) use ($instance) {
+                $container = $instance->getContainer();
+
+                $factory        = $container->get(Factory::class);
+                $bladeEngine    = $container->get(CompilerEngine::class);
+                $fileViewFinder = $container->get(FileViewFinder::class);
+                $viewFilePath   = $fileViewFinder->find($view);
 
 
-				$view_obj = new View(
-					$factory,
-					$bladeEngine,
-					$view,
-					$viewFilePath,
-					$data
-				);
+                $view_obj = new View(
+                    $factory,
+                    $bladeEngine,
+                    $view,
+                    $viewFilePath,
+                    $data
+                );
 
-				return $view_obj->render();
-			}
-		);
-
-	}
-
+                return $view_obj->render();
+            }
+        );
+    }
 }
