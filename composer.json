@@ -43,9 +43,9 @@
         "laminas/laminas-i18n": "^2.11",
         "laminas/laminas-view": "^2.11",
         "league/container": "^3.3",
-        "monolog/monolog": "^2.3",
         "symfony/finder": "^5.1",
-        "symfony/http-foundation": "^5.1"
+        "symfony/http-foundation": "^5.1",
+		"veronalabs/logger-wp": "^1.0"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
