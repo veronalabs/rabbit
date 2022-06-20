@@ -50,8 +50,8 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
 		$container
 			->share('logger', Logger::class)
 			->addArgument([
-				'dir_name'  => wp_get_environment_type(),
-				'channel'   => sprintf('%s-logs', $container->getDirectoryName()),
+				'dir_name'  => sprintf('%s-logs', $container->getDirectoryName()),
+				'channel'   => wp_get_environment_type(),
 				'logs_days' => $logsDays,
 			]);
 	}
