@@ -39,19 +39,15 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
 		$logsPath  = $container->config('logs_path');
 		$logsDays  = $container->config('logs_days');
 
-		if (!$logsPath) {
-			throw new MissingConfigurationException('Logger service provider requires "logs_path" to be configured.');
-		}
-
-		if (!$logsDays) {
-			throw new MissingConfigurationException('Logger service provider requires "logs_days" to be configured.');
+		if (!$logsPath or !$logsDays) {
+			return;
 		}
 
 		$container
-			->share('logger', Logger::class)
+			->add('logger', Logger::class)
 			->addArgument([
 				'dir_name'  => sprintf('%s-logs', $container->getDirectoryName()),
-				'channel'   => wp_get_environment_type(),
+				'channel'   => defined('WP_DEBUG') && WP_DEBUG ? 'development' : 'production',
 				'logs_days' => $logsDays,
 			]);
 	}
@@ -61,6 +57,7 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
 	 */
 	public function register()
 	{
+
 	}
 
 	/**
@@ -74,8 +71,7 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
 	{
 		$instance = $this;
 
-		$this->getContainer()::macro(
-			'logger',
+		$this->getContainer()::macro('logger',
 			function () use ($instance) {
 				return $instance->getContainer()->get('logger');
 			}
