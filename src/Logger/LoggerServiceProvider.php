@@ -63,7 +63,7 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
 	/**
 	 * When the plugin is booted, register a new macro.
 	 *
-	 * Adds the `logger()` method that returns an instance of the Monolog\Logger class.
+	 * Adds the `logger()` method that returns an instance of the LoggerWP\Logger class.
 	 *
 	 * @return void
 	 */
@@ -76,5 +76,9 @@ class LoggerServiceProvider extends AbstractServiceProvider implements BootableS
 				return $instance->getContainer()->get('logger');
 			}
 		);
+
+		add_action('init', function () use ($instance) {
+			$instance->getContainer()->get('logger');
+		});
 	}
 }
