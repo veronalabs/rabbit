@@ -1,11 +1,11 @@
-# Framework for WordPress - A modern way of building WordPress plugins.
+# Rabbit Framework - A modern way of building WordPress plugins.
 
 [![Total Downloads](https://img.shields.io/packagist/dt/veronalabs/framework.svg)](https://packagist.org/packages/veronalabs/framework)
 [![Latest Stable Version](https://img.shields.io/packagist/v/veronalabs/framework.svg)](https://packagist.org/packages/veronalabs/framework)
 
 
 ## About
-Framework is a modern framework designed to be a solid foundation for your WordPress plugins. the project is forked from [Backyard](https://backyard.sematico.com/)
+Rabbit Framework is a modern framework designed to be a solid foundation for your WordPress plugins. the project is forked from [Backyard](https://backyard.sematico.com/)
 
 ## Benefits
 
@@ -25,7 +25,7 @@ Framework is a modern framework designed to be a solid foundation for your WordP
 ## Usage
 
 ```bash
-composer require veronalabs/framework
+composer require veronalabs/rabbit
 ```
 
 
@@ -33,7 +33,7 @@ composer require veronalabs/framework
 Plugin header fields
 --------------------
 
-When creating a WordPress plugin, you are required to add [header fields](https://developer.wordpress.org/plugins/plugin-basics/header-requirements/) to your plugin's entry file. The Backyard framework requires 1 additional field: `Plugin Prefix`.
+When creating a WordPress plugin, you are required to add [header fields](https://developer.wordpress.org/plugins/plugin-basics/header-requirements/) to your plugin's entry file. The Rabbit framework requires 1 additional field: `Plugin Prefix`.
 
 The `Plugin Prefix` field is used by the framework to automatically [define constants](/docs/constants) about the plugin.
 
@@ -50,43 +50,39 @@ The `Plugin Prefix` field is used by the framework to automatically [define cons
      */
     
 
-* * *
 
 Load Composer autoloader
 ------------------------
 
-Copy and paste the code below right after the header fields to load all the dependencies of your plugin, including the Backyard framework.
+Copy and paste the code below right after the header fields to load all the dependencies of your plugin, including the Rabbit framework.
 
     if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
         require dirname( __FILE__ ) . '/vendor/autoload.php';
     }
     
 
-* * *
 
 Create a new Application instance
 ---------------------------------
 
-Every Backyard powered plugin must create an instance of a Backyard Application. The application is responsible for the loading of the plugin.
+Every Rabbit powered plugin must create an instance of a Rabbit Application. The application is responsible for the loading of the plugin.
 
 Create a new application instance by using the `get()` method.
 
     $myPlugin = Application::get();
     
 
-* * *
 
 The plugin container
 --------------------
 
 The framework handles a plugin through the `Plugin` class. The `Plugin` class is an extension of the [PHP League dependency injection container](https://container.thephpleague.com/). The container is responsible for the loading of configuration files, the registration & booting process of service providers and more.
 
-* * *
 
 Load your plugin into the application
 -------------------------------------
 
-After the instantiation of a Backyard Application, you need to load your plugin into the application via the `loadPlugin()` method.
+After the instantiation of a Rabbit Application, you need to load your plugin into the application via the `loadPlugin()` method.
 
 The `loadPlugin()` method takes 3 arguments, **the third is optional**.
 
@@ -99,7 +95,6 @@ The `loadPlugin()` method takes 3 arguments, **the third is optional**.
 
 The `loadPlugin()` method returns the `Plugin` container. You will then use the container to add functionalities to your plugin.
 
-* * *
 
 Configuration files
 -------------------
@@ -125,26 +120,24 @@ In order to access the `my_key` value, you need to call the `config()` method th
     $value = $myPlugin->config( 'my_key' );
     
 
-> Configuration files are used by some features provided by Backyard.
+> Configuration files are used by some features provided by Rabbit.
 
-* * *
 
 Add service providers
 ---------------------
 
-Service providers in Backyard are used to add functionalities to your plugin. Providers can be loaded by using the `addServiceProvider()` method of the container class.
+Service providers in Rabbit are used to add functionalities to your plugin. Providers can be loaded by using the `addServiceProvider()` method of the container class.
 
     $myPlugin->addServiceProvider( RedirectServiceProvider::class );
     
 
-* * *
 
 The activation & deactivation hook
 ----------------------------------
 
 Activation and deactivation hooks provide ways to execute actions when the plugin is activated or deactivated. If you're familiar [with these hooks](https://developer.wordpress.org/plugins/plugin-basics/activation-deactivation-hooks/), you may remember they are called with the `register_activation_hook` and `register_deactivation_hook` functions.
 
-In Backyard you can register the activation and deactivation process by using the `onActivation` and `onDeactivation` methods of the `Plugin` class. Both methods use a [Closure](https://www.php.net/manual/en/class.closure.php) as argument.
+In Rabbit you can register the activation and deactivation process by using the `onActivation` and `onDeactivation` methods of the `Plugin` class. Both methods use a [Closure](https://www.php.net/manual/en/class.closure.php) as argument.
 
     $myPlugin->onActivation(
         function() use ( $myPlugin ) {
@@ -160,7 +153,6 @@ In Backyard you can register the activation and deactivation process by using th
     );
     
 
-* * *
 
 Boot the plugin
 ---------------
@@ -178,7 +170,6 @@ To boot your plugin use the following snippet:
     );
     
 
-* * *
 
 Load plugin textdomain
 ----------------------
@@ -195,7 +186,7 @@ If your plugin requires localization, you can use the `loadPluginTextDomain` met
 Include files
 -------------
 
-The Backyard framework comes with an easy way to `include()` files in your WordPress plugin. Use the `includes()` method of the `Plugin` class to include files from a specific folder. Files are loaded alphabetically.
+The Rabbit framework comes with an easy way to `include()` files in your WordPress plugin. Use the `includes()` method of the `Plugin` class to include files from a specific folder. Files are loaded alphabetically.
 
     $myPlugin->boot(
         function( $plugin ) {
@@ -206,14 +197,13 @@ The Backyard framework comes with an easy way to `include()` files in your WordP
 
 The example above will automatically include *.php files from the `includes` subfolder of your plugin.
 
-* * *
 
 Example entry file
 ------------------
 
     <?php
     /**
-     * Plugin Name:     Backyard example plugin
+     * Plugin Name:     Rabbit example plugin
      * Plugin URI:      https://example.com
      * Plugin Prefix:   TD
      * Description:     Example plugin
@@ -224,8 +214,8 @@ Example entry file
      * Version:         0.1.0
      */
     
-    use Backyard\Application;
-    use Backyard\Redirects\RedirectServiceProvider;
+    use Rabbit\Application;
+    use Rabbit\Redirects\RedirectServiceProvider;
     
     if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
         require dirname( __FILE__ ) . '/vendor/autoload.php';
