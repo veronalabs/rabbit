@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Registers the templates engine functionality within the plugin.
  *
@@ -16,9 +17,10 @@ use Backyard\Exceptions\MissingConfigurationException;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 /**
- * Registers the templates functionality within the plugin.
+ * Registers the templates' functionality within the plugin.
  */
-class TemplatesServiceProvider extends AbstractServiceProvider implements BootablePluginProviderInterface {
+class TemplatesServiceProvider extends AbstractServiceProvider implements BootablePluginProviderInterface
+{
 
 	/**
 	 * The provided array is a way to let the container
@@ -30,53 +32,38 @@ class TemplatesServiceProvider extends AbstractServiceProvider implements Bootab
 	 * @var array
 	 */
 	protected $provides = [
-		Engine::class,
+		'template',
 	];
 
 	/**
-	 * Register the templates functionality within the plugin's container.
+	 * Register the templates' functionality within the plugin's container.
 	 *
 	 * @return void
-	 * @throws MissingConfigurationException When the require config is missing.
+	 * @throws MissingConfigurationException When the requirement config is missing.
 	 */
-	public function register() {
-
+	public function register()
+	{
 		/** @var \Backyard\Plugin $container */
 		$container = $this->getContainer();
+		$viewPath  = $container->config('views_path');
 
-		if ( ! $container->config( 'base_templates_path' ) ) {
-			throw new MissingConfigurationException( 'Templates service provider requires "base_templates_path" to be configured.' );
+		if (!$viewPath) {
+			throw new MissingConfigurationException('Templates service provider requires "views_path" to be configured.');
 		}
-
-		$container
-			->add( Engine::class )
-			->addArgument( 'templates' )
-			->addArgument( 'plugin-templates' )
-			->addMethodCall(
-				'addFolder',
-				[
-					'vendor',
-					$container->basePath( $container->config( 'base_templates_path' ) ),
-					5,
-				]
-			);
-
 	}
 
 	/**
-	 * Register a new macro.
+	 * When the plugin is booted, register a new macro.
+	 *
+	 * Adds the `template()` method that returns an instance of the Backyard\Templates class.
 	 *
 	 * @return void
 	 */
-	public function bootPlugin() {
-		$instance = $this;
-
-		$this->getContainer()::macro(
-			'templates',
-			function() use ( $instance ) {
-				return $instance->getContainer()->get( Engine::class );
-			}
-		);
+	public function bootPlugin()
+	{
+		$this->getContainer()::macro('template', function (string $view, array $data = []) {
+			$engine = new Engine($view, $data);
+			return $engine->render();
+		});
 	}
-
 }
