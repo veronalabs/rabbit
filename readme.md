@@ -15,7 +15,7 @@ Framework is a modern framework designed to be a solid foundation for your WordP
 4. Caching helpers.
 5. HTTP Redirects with admin notices flashing.
 6. Macroable classes.
-7. (LoggerWP)[https://github.com/veronalabs/logger-wp]
+7. [LoggerWP](https://github.com/veronalabs/logger-wp)
 
 ## Requirements
 
