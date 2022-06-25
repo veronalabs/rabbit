@@ -3,17 +3,17 @@
 /**
  * Registers the templates engine functionality within the plugin.
  *
- * @package   backyard-framework
+ * @package   rabbit-framework
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Templates;
+namespace Rabbit\Templates;
 
-use Backyard\Contracts\BootablePluginProviderInterface;
-use Backyard\Exceptions\MissingConfigurationException;
+use Rabbit\Contracts\BootablePluginProviderInterface;
+use Rabbit\Exceptions\MissingConfigurationException;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 /**
@@ -43,7 +43,7 @@ class TemplatesServiceProvider extends AbstractServiceProvider implements Bootab
 	 */
 	public function register()
 	{
-		/** @var \Backyard\Plugin $container */
+		/** @var \Rabbit\Plugin $container */
 		$container = $this->getContainer();
 		$viewPath  = $container->config('views_path');
 
@@ -55,7 +55,7 @@ class TemplatesServiceProvider extends AbstractServiceProvider implements Bootab
 	/**
 	 * When the plugin is booted, register a new macro.
 	 *
-	 * Adds the `template()` method that returns an instance of the Backyard\Templates class.
+	 * Adds the `template()` method that returns an instance of the Rabbit\Templates class.
 	 *
 	 * @return void
 	 */

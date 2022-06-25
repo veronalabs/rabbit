@@ -1,19 +1,19 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Backyard object cache tests
+ * Rabbit object cache tests
  *
- * @package   backyard-cache
+ * @package   rabbit-cache
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Cache\Tests;
+namespace Rabbit\Cache\Tests;
 
 use Exception;
 use WP_Error;
-use Backyard\Cache\ObjectCache as Cache;
+use Rabbit\Cache\ObjectCache as Cache;
 
 class TestObjectCache extends \WP_UnitTestCase {
 

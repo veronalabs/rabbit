@@ -1,18 +1,18 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Backyard nonces test.
+ * Rabbit nonces test.
  *
- * @package   backyard-foundation
+ * @package   rabbit-foundation
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Tests;
+namespace Rabbit\Tests;
 
-use Backyard\Nonces\Nonce;
-use Backyard\Nonces\NonceFactory;
+use Rabbit\Nonces\Nonce;
+use Rabbit\Nonces\NonceFactory;
 
 class TestNonces extends \WP_UnitTestCase {
 

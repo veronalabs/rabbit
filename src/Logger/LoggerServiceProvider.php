@@ -1,9 +1,9 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
-namespace Backyard\Logger;
+namespace Rabbit\Logger;
 
-use Backyard\Contracts\BootablePluginProviderInterface;
-use Backyard\Exceptions\MissingConfigurationException;
+use Rabbit\Contracts\BootablePluginProviderInterface;
+use Rabbit\Exceptions\MissingConfigurationException;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
 use LoggerWp\Logger;

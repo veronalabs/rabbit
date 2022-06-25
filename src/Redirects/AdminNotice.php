@@ -2,16 +2,16 @@
 /**
  * Admin notice markup
  *
- * @package   backyard-framework
+ * @package   rabbit-framework
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Redirects;
+namespace Rabbit\Redirects;
 
-use Backyard\Utils\Str;
+use Rabbit\Utils\Str;
 
 /**
  * Admin notice markup generator.
@@ -33,7 +33,7 @@ class AdminNotice {
 				$message = '<p>' . $data['message'] . '</p>';
 			}
 			?>
-			<div class="notice backyard-admin-notice <?php echo esc_attr( $classes ); ?> is-dismissible">
+			<div class="notice rabbit-admin-notice <?php echo esc_attr( $classes ); ?> is-dismissible">
 				<?php echo wp_kses_post( $message ); ?>
 			</div>
 			<?php
@@ -54,7 +54,7 @@ class AdminNotice {
 				$message = '<p>' . $data['message'] . '</p>';
 			}
 			?>
-			<div class="notice backyard-admin-notice <?php echo esc_attr( $classes ); ?>">
+			<div class="notice rabbit-admin-notice <?php echo esc_attr( $classes ); ?>">
 				<?php echo wp_kses_post( $message ); ?>
 			</div>
 			<?php

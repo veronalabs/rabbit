@@ -1,18 +1,18 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Backyard string testing.
+ * Rabbit string testing.
  * These tests have been taken from the Laravel framework.
  *
- * @package   backyard-cache
+ * @package   rabbit-cache
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Utils\Tests;
+namespace Rabbit\Utils\Tests;
 
-use Backyard\Utils\Str;
+use Rabbit\Utils\Str;
 
 class TestStr extends \WP_UnitTestCase {
 

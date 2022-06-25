@@ -2,14 +2,14 @@
 /**
  * Definition of the public contract to be available on a ParameterBag instance
  *
- * @package   backyard-framework
+ * @package   rabbit-framework
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Contracts;
+namespace Rabbit\Contracts;
 
 interface ParameterBagInterface extends \Countable, \IteratorAggregate {
 

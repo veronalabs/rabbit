@@ -4,16 +4,16 @@
  * Native PHP template system that’s fast, easy to use and easy to extend.
  * Based on plates from phpleague.
  *
- * @package   backyard-framework
+ * @package   rabbit-framework
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Templates;
+namespace Rabbit\Templates;
 
-use Backyard\Application;
+use Rabbit\Application;
 
 /**
  * Templates api and env storage.
@@ -37,7 +37,7 @@ class Engine
 	protected $pluginTemplatesPath;
 
 	/**
-	 * @var \Backyard\Plugin
+	 * @var \Rabbit\Plugin
 	 */
 	private $application;
 

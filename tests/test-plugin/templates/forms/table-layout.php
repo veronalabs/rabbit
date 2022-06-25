@@ -3,7 +3,7 @@
  * Displays forms through a table layout.
  *
  * @version   1.0.0
- * @package   backyard-framwork
+ * @package   rabbit-framework
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
@@ -22,7 +22,7 @@ $activeTab = $form->getActiveTab();
 
 ?>
 
-<div class="backyard-form table-layout">
+<div class="rabbit-form table-layout">
 
 	<?php $this->insert( 'admin-nav-tabs', [ 'form' => $form ] ); ?>
 

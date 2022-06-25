@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:     Backyard example plugin
+ * Plugin Name:     Rabbit example plugin
  * Plugin URI:      https://sematico.com
  * Plugin Prefix:   TD
  * Plugin ID:       plugin-name

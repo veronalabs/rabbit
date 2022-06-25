@@ -1,20 +1,20 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Backyard redirects test.
+ * Rabbit redirects test.
  *
- * @package   backyard-foundation
+ * @package   rabbit-foundation
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Tests;
+namespace Rabbit\Tests;
 
-use Backyard\Cache\Transient;
-use Backyard\Plugin;
-use Backyard\Redirects\Redirect;
-use Backyard\Redirects\RedirectServiceProvider;
+use Rabbit\Cache\Transient;
+use Rabbit\Plugin;
+use Rabbit\Redirects\Redirect;
+use Rabbit\Redirects\RedirectServiceProvider;
 use DOMDocument;
 use DOMXPath;
 
@@ -98,7 +98,7 @@ class TestRedirects extends \WP_UnitTestCase {
 
 		$this->assertNoticeCount( $output, 1 );
 		$this->assertNoticeHasClass( $output, 'notice-success' );
-		$this->assertNoticeHasClass( $output, 'backyard-admin-notice' );
+		$this->assertNoticeHasClass( $output, 'rabbit-admin-notice' );
 	}
 
 }

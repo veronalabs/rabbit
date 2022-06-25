@@ -1,26 +1,26 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Backyard plugin foundation.
+ * Rabbit plugin foundation.
  *
- * @package   backyard-framwork
+ * @package   rabbit-framework
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard;
+namespace Rabbit;
 
-use Backyard\Contracts\BootablePluginProviderInterface;
-use Backyard\Support\IncludesFiles;
-use Backyard\Support\PluginHeaders;
-use Backyard\Support\WordPressFileHeaders;
+use Rabbit\Contracts\BootablePluginProviderInterface;
+use Rabbit\Support\IncludesFiles;
+use Rabbit\Support\PluginHeaders;
+use Rabbit\Support\WordPressFileHeaders;
 use Configula\ConfigFactory;
 use Illuminate\Support\Traits\Macroable;
 use League\Container\Container;
 
 /**
- * Backyard plugin container definition.
+ * Rabbit plugin container definition.
  */
 class Plugin extends Container {
 
@@ -76,7 +76,7 @@ class Plugin extends Container {
 	protected $booted = false;
 
 	/**
-	 * Create a new Backyard powered plugin instance.
+	 * Create a new Rabbit powered plugin instance.
 	 *
 	 * @param string $basePath path of the plugin
 	 * @param string $filePath path of the plugin entry file

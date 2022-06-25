@@ -1,15 +1,15 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Backyard transients helper
+ * Rabbit transients helper
  *
- * @package   backyard-framework
+ * @package   rabbit-framework
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Cache;
+namespace Rabbit\Cache;
 
 /**
  * Transients helper.

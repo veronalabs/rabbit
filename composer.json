@@ -1,34 +1,26 @@
 {
-    "name": "veronalabs/framework",
-    "description": "",
+    "name": "veronalabs/rabbit",
+    "description": "A modern way of building WordPress plugins.",
     "keywords": [
         "wordpress",
         "pressmodo",
         "sematico",
-        "backyard",
+        "rabbit",
         "framework"
     ],
-    "homepage": "https://backyard.sematico.com",
-    "license": "GPL-3.0-or-later",
-    "authors": [
-        {
-            "name": "Alessandro Tesoro",
-            "email": "hello@sematico.com",
-            "homepage": "https://sematico.com",
-            "role": "Founder & MD"
-        }
-    ],
+    "homepage": "https://github.com/veronalabs/rabbit",
+    "license": "MIT",
     "support": {
-        "issues": "https://github.com/backyardwp/framework/issues"
+        "issues": "https://github.com/veronalabs/rabbit/issues"
     },
     "autoload": {
         "psr-4": {
-            "Backyard\\": "src"
+            "Rabbit\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Backyard\\Tests\\": "tests"
+            "Rabbit\\Tests\\": "tests"
         }
     },
     "require": {

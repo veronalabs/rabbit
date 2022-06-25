@@ -1,17 +1,17 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Backyard http requests test.
+ * Rabbit http requests test.
  *
- * @package   backyard-cache
+ * @package   rabbit-cache
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Utils\Tests;
+namespace Rabbit\Utils\Tests;
 
-use Backyard\Utils\RequestFactory;
+use Rabbit\Utils\RequestFactory;
 use Laminas\Diactoros\ServerRequest;
 
 class TestRequestFactory extends \WP_UnitTestCase {

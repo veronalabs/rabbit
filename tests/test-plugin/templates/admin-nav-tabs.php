@@ -3,20 +3,20 @@
  * Displays navigation tabs using the wp-admin markup.
  *
  * @version   1.0.0
- * @package   backyard-framwork
+ * @package   rabbit-framework
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-use Backyard\Utils\DomAttributes;
-use Backyard\Utils\RequestFactory;
+use Rabbit\Utils\DomAttributes;
+use Rabbit\Utils\RequestFactory;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/** @var \Backyard\Forms\Form $form */
+/** @var \Rabbit\Forms\Form $form */
 if ( ! $form->hasTabs() ) {
 	return;
 }

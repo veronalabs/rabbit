@@ -1,17 +1,17 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Backyard application foundation
+ * Rabbit application foundation
  *
- * @package   backyard-foundation
+ * @package   rabbit-foundation
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
  * @link      https://sematico.com
  */
 
-namespace Backyard\Tests;
+namespace Rabbit\Tests;
 
-use Backyard\Plugin;
+use Rabbit\Plugin;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class TestPlugin extends \WP_UnitTestCase {
@@ -36,7 +36,7 @@ class TestPlugin extends \WP_UnitTestCase {
 	public function testPluginHeaders() {
 		$plugin = $this->plugin;
 
-		$this->assertEquals( 'Backyard example plugin', $plugin->getHeader( 'name' ) );
+		$this->assertEquals( 'Rabbit example plugin', $plugin->getHeader( 'name' ) );
 		$this->assertEquals( '0.1.0', $plugin->getHeader( 'version' ) );
 		$this->assertEquals( 'TD', $plugin->getHeader( 'plugin_prefix' ) );
 	}

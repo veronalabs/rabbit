@@ -1,8 +1,8 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
-namespace Backyard\Database;
+namespace Rabbit\Database;
 
-use Backyard\Contracts\BootablePluginProviderInterface;
+use Rabbit\Contracts\BootablePluginProviderInterface;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
