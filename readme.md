@@ -5,7 +5,7 @@
 
 
 ## About
-Rabbit Framework is a modern framework designed to be a solid foundation for your WordPress plugins. the project is forked from [Backyard](https://backyard.sematico.com/)
+Rabbit Framework is a modern framework designed to be a solid foundation for your WordPress plugins. the project is based on [Backyard](https://backyard.sematico.com/)
 
 ## Benefits
 
