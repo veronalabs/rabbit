@@ -1,7 +1,7 @@
 # Rabbit Framework - A modern way of building WordPress plugins.
 
-[![Total Downloads](https://img.shields.io/packagist/dt/veronalabs/framework.svg)](https://packagist.org/packages/veronalabs/framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/veronalabs/framework.svg)](https://packagist.org/packages/veronalabs/framework)
+[![Total Downloads](https://img.shields.io/packagist/dt/veronalabs/rabbit.svg)](https://packagist.org/packages/veronalabs/rabbit)
+[![Latest Stable Version](https://img.shields.io/packagist/v/veronalabs/rabbit.svg)](https://packagist.org/packages/veronalabs/rabbit)
 
 
 ## About
