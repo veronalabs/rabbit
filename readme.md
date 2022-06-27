@@ -222,34 +222,118 @@ The example above will automatically include *.php files from the `includes` sub
  * Version:         0.1.0
  */
 
-use Rabbit\Application;
-use Rabbit\Redirects\RedirectServiceProvider;
+namespace RabbitExamplePlugin;
 
-if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
-    require dirname( __FILE__ ) . '/vendor/autoload.php';
+use Rabbit\Application;
+use Rabbit\Database\DatabaseServiceProvider;
+use Rabbit\Logger\LoggerServiceProvider;
+use Rabbit\Plugin;
+use Rabbit\Redirects\AdminNotice;
+use Rabbit\Templates\TemplatesServiceProvider;
+use Rabbit\Utils\Singleton;
+use Exception;
+use League\Container\Container;
+
+if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
+    require dirname(__FILE__) . '/vendor/autoload.php';
 }
 
-$myPlugin = ( Application::get() )->loadPlugin( __DIR__, __FILE__, 'config' );
+/**
+ * Class RabbitExamplePlugin
+ * @package RabbitExamplePlugin
+ */
+class RabbitExamplePlugin extends Singleton
+{
+    /**
+     * @var Container
+     */
+    private $application;
 
-$myPlugin->addServiceProvider( RedirectServiceProvider::class );
-
-$myPlugin->onActivation(
-    function() use ( $myPlugin ) {
-        // do something on activation
+    /**
+     * WPSmsWooPro constructor.
+     */
+    public function __construct()
+    {
+        $this->application = Application::get()->loadPlugin(__DIR__, __FILE__, 'config');
+        $this->init();
     }
-);
 
-$myPlugin->onDeactivation(
-    function() use ( $myPlugin ) {
-        // do something on deactivation
-    }
-);
+    public function init()
+    {
+        try {
 
-$myPlugin->boot(
-    function( $plugin ) {
-        $plugin->loadPluginTextDomain();
+            /**
+             * Load service providers
+             */
+            $this->application->addServiceProvider(RedirectServiceProvider::class);
+            $this->application->addServiceProvider(DatabaseServiceProvider::class);
+            $this->application->addServiceProvider(TemplatesServiceProvider::class);
+            $this->application->addServiceProvider(LoggerServiceProvider::class);
+            // Load your own service providers here...
+
+
+            /**
+             * Activation hooks
+             */
+            $this->application->onActivation(function () {
+                // Create tables or something else
+            });
+
+            /**
+             * Deactivation hooks
+             */
+            $this->application->onDeactivation(function () {
+                // Clear events, cache or something else
+            });
+
+            $this->application->boot(function (Plugin $plugin) {
+                $plugin->loadPluginTextDomain();
+
+                // load template
+                $this->application->view('plugin-template.php', ['foo' => 'bar']);
+                ///...
+                
+            });
+
+        } catch (Exception $e) {
+            /**
+             * Print the exception message to admin notice area
+             */
+            add_action('admin_notices', function () use ($e) {
+                AdminNotice::permanent(['type' => 'error', 'message' => $e->getMessage()]);
+            });
+
+            /**
+             * Log the exception to file
+             */
+            add_action('init', function () use ($e) {
+                if ($this->application->has('logger')) {
+                    $this->application->get('logger')->warning($e->getMessage());
+                }
+            });
+        }
     }
-);
+
+    /**
+     * @return Container
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
+}
+
+/**
+ * Returns the main instance of RabbitExamplePlugin.
+ * @return RabbitExamplePlugin
+ */
+function RabbitExamplePlugin()
+{
+    return RabbitExamplePlugin::get();
+}
+
+RabbitExamplePlugin();
+
 
 ```
 
