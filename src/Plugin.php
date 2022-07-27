@@ -30,11 +30,11 @@ class Plugin extends Container {
 	use Macroable;
 
 	/**
-	 * Framwork version.
+	 * Framework version.
 	 *
 	 * @var string
 	 */
-	const VERSION = '0.1.0';
+	const VERSION = '4.0';
 
 	/**
 	 * @var string

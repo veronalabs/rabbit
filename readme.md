@@ -41,7 +41,7 @@ The `Plugin Prefix` field is used by the framework to automatically [define cons
 /**
  * Plugin Name:     Example plugin
  * Plugin URI:      https://example.com
- * Plugin Prefix:   TD
+ * Plugin Prefix:   EP
  * Description:     Description
  * Author:          Alessandro Tesoro
  * Author URI:      https://example.com
@@ -49,7 +49,7 @@ The `Plugin Prefix` field is used by the framework to automatically [define cons
  * Domain Path:     /languages
  * Version:         0.1.0
  */
-    
+
 ```
 
 ## Load Composer autoloader
@@ -61,7 +61,7 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
     require dirname( __FILE__ ) . '/vendor/autoload.php';
 }
 ```
-    
+
 
 
 ## Create a new Application instance
@@ -91,7 +91,7 @@ The `loadPlugin()` method takes 3 arguments, **the third is optional**.
 3.  The name of the folder that holds the configuration files.
 
     $myPlugin = $myPlugin->loadPlugin( __DIR__, __FILE__, 'config' );
-    
+
 
 The `loadPlugin()` method returns the `Plugin` container. You will then use the container to add functionalities to your plugin.
 
@@ -156,7 +156,7 @@ $myPlugin->onDeactivation(
         // Do something on deactivation here
     }
 );
-    
+
 ```
 
 
@@ -188,7 +188,7 @@ $myPlugin->boot(
     }
 );
 ```
-    
+
 
 ## Include files
 
@@ -201,7 +201,7 @@ $myPlugin->boot(
     }
 );
 ```
-    
+
 
 The example above will automatically include *.php files from the `includes` subfolder of your plugin.
 
@@ -213,7 +213,7 @@ The example above will automatically include *.php files from the `includes` sub
 /**
  * Plugin Name:     Rabbit example plugin
  * Plugin URI:      https://example.com
- * Plugin Prefix:   TD
+ * Plugin Prefix:   REP
  * Description:     Example plugin
  * Author:          John Doe
  * Author URI:      https://example.me
@@ -292,7 +292,7 @@ class RabbitExamplePlugin extends Singleton
                 // load template
                 $this->application->view('plugin-template.php', ['foo' => 'bar']);
                 ///...
-                
+
             });
 
         } catch (Exception $e) {
