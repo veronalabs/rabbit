@@ -337,6 +337,9 @@ RabbitExamplePlugin();
 
 ```
 
+## Example plugin
+There is an exampel of using the Rabbit Framework in [this repository](https://github.com/veronalabs/plugin)
+
 
 ## License
 
