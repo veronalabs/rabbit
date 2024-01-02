@@ -30,7 +30,7 @@
         "illuminate/macroable": "^8.7",
         "laminas/laminas-diactoros": "^2.5",
         "laminas/laminas-escaper": "^2.7",
-        "laminas/laminas-form": "^2.15",
+        "laminas/laminas-form": "^3.0",
         "laminas/laminas-i18n": "^2.11",
         "laminas/laminas-view": "^2.11",
         "league/container": "^3.3",
@@ -41,9 +41,9 @@
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "mikey179/vfsstream": "^1.6",
-        "phpunit/phpunit": "^7.0",
+        "phpunit/phpunit": "^10.0",
         "symfony/var-dumper": "^5.1",
-        "wp-coding-standards/wpcs": "dev-master"
+        "wp-coding-standards/wpcs": "3.0"
     },
     "config": {
         "bin-dir": "bin",
