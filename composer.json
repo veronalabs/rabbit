@@ -43,7 +43,7 @@
         "mikey179/vfsstream": "^1.6",
         "phpunit/phpunit": "^7.0",
         "symfony/var-dumper": "^5.1",
-        "wp-coding-standards/wpcs": "dev-master"
+        "wp-coding-standards/wpcs": "*"
     },
     "config": {
         "bin-dir": "bin",
