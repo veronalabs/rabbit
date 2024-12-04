@@ -24,8 +24,8 @@
         }
     },
     "require": {
-        "php": ">=7.2",
-        "caseyamcl/configula": "^4.0",
+        "php": ">=7.3",
+        "caseyamcl/configula": "^4.3",
         "illuminate/database": "^8.61",
         "illuminate/macroable": "^8.7",
         "laminas/laminas-diactoros": "^2.5",
