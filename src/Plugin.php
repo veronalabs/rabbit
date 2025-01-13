@@ -263,7 +263,7 @@ class Plugin extends Container {
 	 * @return void
 	 */
 	public function loadPluginTextDomain() {
-		load_plugin_textdomain( $this->getHeader( 'text_domain' ), false, $this->basePath( ltrim( $this->getHeader( 'domain_path' ), '/' ) ) );
+		load_plugin_textdomain( $this->getHeader( 'text_domain' ), false, plugin_basename( $this->basePath( ltrim( $this->getHeader( 'domain_path' ), '/' ) ) ) );
 	}
 
 	/**
