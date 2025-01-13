@@ -263,7 +263,7 @@ class Plugin extends Container {
 	 * @return void
 	 */
 	public function loadPluginTextDomain() {
-		load_plugin_textdomain( $this->getHeader( 'text_domain' ), false, plugin_basename( $this->basePath( ltrim( $this->getHeader( 'domain_path' ), '/' ) ) ) );
+		load_plugin_textdomain( $this->getHeader( 'text_domain' ), false, $this->basePath( ltrim( $this->getHeader( 'domain_path' ), '/' ) ) );
 	}
 
 	/**
@@ -272,23 +272,45 @@ class Plugin extends Container {
 	 * @param \Closure $activation
 	 * @return void
 	 */
-	public function onActivation( \Closure $activation ) {
-
+	public function onActivation( \Closure $activation ){
 		$instance = $this;
 
 		register_activation_hook(
 			$this->filePath,
-			function () use ( $activation, $instance ) {
+			function ( $network_wide ) use ( $activation, $instance ) {
 				try {
-					call_user_func_array( $activation, [ $instance ] );
+					call_user_func_array( $activation, [ $instance, $network_wide ]);
 				} catch ( \Exception $e ) {
 					deactivate_plugins( basename( $this->filePath ) );
 					wp_die( $e->getMessage() ); //phpcs:ignore
 				}
 			}
 		);
-
 	}
+
+	/**
+	 * Trigger callback for initializing a site in the network.
+	 *
+	 * @param \Closure $networkAdd
+	 * @return void
+	 */
+	public function onNetworkAdd( \Closure $networkAdd ){
+
+		$instance = $this;
+
+		add_action(
+			'wp_initialize_site',
+			function ( $newSite, $args ) use ( $networkAdd, $instance ) {
+				try {
+					call_user_func_array( $networkAdd, [ $instance, $newSite, $args ]);
+				} catch ( \Exception $e ) {
+					wp_die( $e->getMessage() );
+				}
+			}, 10, 2
+		);
+	}
+
+
 
 	/**
 	 * Trigger callback on plugin deactivation.
